@@ -18,4 +18,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProductService.BusinessLogic\ProductService.BusinessLogic.csproj" />
+  </ItemGroup>
+
 </Project>

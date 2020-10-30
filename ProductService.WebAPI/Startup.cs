@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ProductService.BusinessLogic;
+using ProductService.BusinessLogic.Interfaces;
 
 namespace ProductService.WebAPI
 {
@@ -26,7 +28,10 @@ namespace ProductService.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            // services.AddSingleton<interface, Class>();
+
+            // DI injection
+            services.AddSingleton<IProductDetailsProvider, ProductDetailsProviders>();
+            services.AddSingleton<IProductDetailsProvider, ProductDetailsProviders>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,8 +1,15 @@
-﻿using System;
+﻿using ProductService.BusinessLogic.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace ProductService.BusinessLogic
 {
-    public class Class1
+    public class ProductDetailsProviders: IProductDetailsProvider
     {
+
+        public async Task<string> GetProducts()
+        {
+            
+        }
     }
 }
