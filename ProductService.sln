@@ -3,25 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.WebAPI", "ProductService.WebAPI\ProductService.WebAPI.csproj", "{A1D32156-235C-4FB2-B8EE-483F5F78D6F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.WebAPI", "ProductService.WebAPI\ProductService.WebAPI.csproj", "{A1D32156-235C-4FB2-B8EE-483F5F78D6F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.DataAccess", "ProductService.DataAccess\ProductService.DataAccess.csproj", "{4043E26A-A7FE-463D-8343-E1FAE97652E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DataAccess", "ProductService.DataAccess\ProductService.DataAccess.csproj", "{4043E26A-A7FE-463D-8343-E1FAE97652E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.BusinessLogic", "ProductService.BusinessLogic\ProductService.BusinessLogic.csproj", "{8CF3A9CE-010E-45C6-8FF1-03B443FF9EB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.BusinessLogic", "ProductService.BusinessLogic\ProductService.BusinessLogic.csproj", "{8CF3A9CE-010E-45C6-8FF1-03B443FF9EB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.DataAccess.WebClient", "ProductService.DataAccess.WebClient\ProductService.DataAccess.WebClient.csproj", "{9F868E22-6989-48A9-834F-BD8EAFAF50C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DataAccess.WebClient", "ProductService.DataAccess.WebClient\ProductService.DataAccess.WebClient.csproj", "{9F868E22-6989-48A9-834F-BD8EAFAF50C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.DataAccess.SQL", "ProductService.DataAccess.SQL\ProductService.DataAccess.SQL.csproj", "{0DBE4354-9FB4-4006-89DA-82F5CDAF9BC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DataAccess.SQL", "ProductService.DataAccess.SQL\ProductService.DataAccess.SQL.csproj", "{0DBE4354-9FB4-4006-89DA-82F5CDAF9BC0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebServer", "WebServer", "{2B3999A4-C80F-4AB4-B018-5F39C406AA39}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{8A763D39-3371-430E-98BE-C60AD27C63E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Shared", "ProductService.Shared\ProductService.Shared.csproj", "{94EEF44A-9802-44B4-AF1B-28A3D95148E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Shared", "ProductService.Shared\ProductService.Shared.csproj", "{94EEF44A-9802-44B4-AF1B-28A3D95148E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.DomainEntities", "ProductService.DomainEntities\ProductService.DomainEntities.csproj", "{EFAB0C44-45B3-4438-BC61-D6FB87102F2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DomainEntities", "ProductService.DomainEntities\ProductService.DomainEntities.csproj", "{EFAB0C44-45B3-4438-BC61-D6FB87102F2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.DomainEntities.SQL", "ProductService.DomainEntities.SQL\ProductService.DomainEntities.SQL.csproj", "{7582E5EF-B186-4F73-ACEB-25E08FE9697B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DomainEntities.SQL", "ProductService.DomainEntities.SQL\ProductService.DomainEntities.SQL.csproj", "{7582E5EF-B186-4F73-ACEB-25E08FE9697B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureCosmos.ReadService", "Shared\AzureCosmos.ReadService\AzureCosmos.ReadService.csproj", "{13C02D3D-6B98-4E5B-929B-61F8D2EF1870}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureCosmos.WriteService", "Shared\AzureCosmos.WriteService\AzureCosmos.WriteService.csproj", "{775F142A-FAAD-4D0C-8E75-050FC6A5DE7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Contracts", "Shared\Services.Contracts\Services.Contracts.csproj", "{2A1424A4-0D09-4F15-B5CE-C7A3582E5B4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +67,18 @@ Global
 		{7582E5EF-B186-4F73-ACEB-25E08FE9697B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7582E5EF-B186-4F73-ACEB-25E08FE9697B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7582E5EF-B186-4F73-ACEB-25E08FE9697B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C02D3D-6B98-4E5B-929B-61F8D2EF1870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C02D3D-6B98-4E5B-929B-61F8D2EF1870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C02D3D-6B98-4E5B-929B-61F8D2EF1870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C02D3D-6B98-4E5B-929B-61F8D2EF1870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{775F142A-FAAD-4D0C-8E75-050FC6A5DE7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{775F142A-FAAD-4D0C-8E75-050FC6A5DE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{775F142A-FAAD-4D0C-8E75-050FC6A5DE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{775F142A-FAAD-4D0C-8E75-050FC6A5DE7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A1424A4-0D09-4F15-B5CE-C7A3582E5B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A1424A4-0D09-4F15-B5CE-C7A3582E5B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A1424A4-0D09-4F15-B5CE-C7A3582E5B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A1424A4-0D09-4F15-B5CE-C7A3582E5B4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +92,9 @@ Global
 		{94EEF44A-9802-44B4-AF1B-28A3D95148E7} = {8A763D39-3371-430E-98BE-C60AD27C63E8}
 		{EFAB0C44-45B3-4438-BC61-D6FB87102F2B} = {8A763D39-3371-430E-98BE-C60AD27C63E8}
 		{7582E5EF-B186-4F73-ACEB-25E08FE9697B} = {8A763D39-3371-430E-98BE-C60AD27C63E8}
+		{13C02D3D-6B98-4E5B-929B-61F8D2EF1870} = {8A763D39-3371-430E-98BE-C60AD27C63E8}
+		{775F142A-FAAD-4D0C-8E75-050FC6A5DE7C} = {8A763D39-3371-430E-98BE-C60AD27C63E8}
+		{2A1424A4-0D09-4F15-B5CE-C7A3582E5B4E} = {8A763D39-3371-430E-98BE-C60AD27C63E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {76E1230F-A7F4-4789-A93D-C9678C5A6A73}
