@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProductService.DataAccess\ProductService.DataAccess.csproj" />
+    <ProjectReference Include="..\ProductService.Shared\ProductService.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

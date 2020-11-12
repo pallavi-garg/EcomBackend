@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProductService.BusinessLogic\ProductService.BusinessLogic.csproj" />
+    <ProjectReference Include="..\ProductService.Shared\ProductService.Shared.csproj" />
   </ItemGroup>
 
 </Project>
