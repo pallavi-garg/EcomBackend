@@ -1,7 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\ProductService.Shared\ProductService.Shared.csproj" />
+    <ProjectReference Include="..\Shared\Services.Contracts\Services.Contracts.csproj" />
+  </ItemGroup>
 
 </Project>

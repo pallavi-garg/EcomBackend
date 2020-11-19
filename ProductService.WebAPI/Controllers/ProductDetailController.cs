@@ -1,45 +1,56 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using ProductService.BusinessLogic;
+using ProductService.Shared;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
+// TODO restrict methods lie add update delete
 namespace ProductService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ProductDetailController : ControllerBase
     {
-        // GET api/values
+        IProductDetailsProvider _productDetailProvider;
+        public ProductDetailController(IProductDetailsProvider productDetailProvider)
+        {
+            _productDetailProvider = productDetailProvider;
+        }
+
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public IEnumerable<ProductModel> GetAllProductList()
         {
-            return new string[] { "value1", "value2" };
+            return _productDetailProvider.GetAllProducts();
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<ProductModel> GetProductById(string id)
         {
-            return "value";
+            return _productDetailProvider.GetProductById(id);
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("productName/{productName}")]
+        public ActionResult<ProductModel> GetProductByProductName(string productName)
         {
+            return _productDetailProvider.GetProductByName(productName);
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public bool UpdateProductDetail(string productId, [FromBody] ProductModel inputData)
         {
+            return _productDetailProvider.UpdateProductDetail(inputData, productId);
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPost]
+        public ProductModel AddProductDetail([FromBody] ProductModel inputData)
         {
+            return _productDetailProvider.AddProductDetail(inputData);
         }
+
+        [HttpDelete("{id}")]
+        public bool DeleteProduct(string id)
+        {
+            return _productDetailProvider.DeleteProductById(id);
+        }
+
     }
 }

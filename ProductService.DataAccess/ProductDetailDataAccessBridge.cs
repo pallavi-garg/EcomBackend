@@ -1,14 +1,59 @@
-﻿using ProductService.DataAccess.Interfaces;
+﻿using ProductService.Shared;
+using Services.Contracts;
 using System;
+using System.Collections.Generic;
 
 namespace ProductService.DataAccess
 {
-    public partial class DataAccessBridge: IBaseDataAccessBridge
+    public partial class DataAccessBridge : IProductDetailDataAccessBridge
     {
-        
-        public string GetProducts()
+        private readonly IReadService readService;
+        private readonly IWriteService writeService;
+
+
+
+        public DataAccessBridge(IReadService readService, IWriteService writeService)
         {
-            return "";
+            this.readService = readService;
+            this.writeService = writeService;
+        }
+
+        public bool DeleteProductById(string productId)
+        {
+            return true;
+        }
+
+        public IEnumerable<ProductModel> GetAllProducts()
+        {
+            return readService.GetAllItems<ProductModel>();
+        }
+
+        public ProductModel GetProductById(string id)
+        {
+            return new ProductModel()
+            {
+                IsAvailable = true,
+                Price = 123300,
+                ProductId = "XYZABC",
+                ProductName = "G-SHOCK",
+                ProductCategory = "Watches"
+            };
+        }
+
+        public ProductModel GetProductByName(string name)
+        {
+            return new ProductModel();
+        }
+
+        public bool UpdateProductDetail(ProductModel inputData, string productId)
+        {
+            return true;
+        }
+
+        public ProductModel AddProductDetail(ProductModel inputData)
+        {
+            inputData.Id = Guid.NewGuid();
+            return writeService.AddItem(inputData);
         }
     }
 }

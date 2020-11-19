@@ -11,11 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProductService.BusinessLogic\ProductService.BusinessLogic.csproj" />
     <ProjectReference Include="..\Shared\AzureCosmos.ReadService\AzureCosmos.ReadService.csproj" />
     <ProjectReference Include="..\Shared\AzureCosmos.WriteService\AzureCosmos.WriteService.csproj" />
     <ProjectReference Include="..\Shared\Services.Contracts\Services.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProductService.BusinessLogic\ProductService.BusinessLogic.csproj" />
+  </ItemGroup>
 
 </Project>

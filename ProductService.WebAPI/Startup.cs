@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using ProductService.BusinessLogic;
-using ProductService.BusinessLogic.Interfaces;
+using ProductService.DataAccess;
 using Services.Contracts;
 
 namespace ProductService.WebApi
@@ -26,9 +27,12 @@ namespace ProductService.WebApi
             services.AddControllers();
             // DI injection
             services.AddSingleton<IProductDetailsProvider, ProductDetailsProviders>();
-            services.AddSingleton<IProductDetailsProvider, ProductDetailsProviders>();
-            services.AddTransient<IReadService, CosmosReadService>();
-            services.AddTransient<IWriteService, CosmosWriteService>();
+            services.AddSingleton<IBaseDataAccessBridge, DataAccessBridge>();
+            
+            services.AddTransient<IReadService, CosmosReadService>(provider => new CosmosReadService(provider.GetService<IConfiguration>(),
+                "CosmosEndpointConnectionString", "CosmosDatabaseId", "ProductDetailsCosmosCollectionId", provider.GetService<ILogger<CosmosReadService>>()));
+            services.AddTransient<IWriteService, CosmosWriteService>(provider => new CosmosWriteService(provider.GetService<IConfiguration>(),
+                "CosmosEndpointConnectionString", "CosmosDatabaseId", "ProductDetailsCosmosCollectionId", provider.GetService<ILogger<CosmosWriteService>>()));
 
         }
 

@@ -29,10 +29,5 @@
         /// <returns></returns>
         bool DeleteItem(string id);
 
-        /// <summary>
-        /// Set Collection Id
-        /// </summary>
-        /// <param name="collectionId"></param>
-        void SetCollectionId(string collectionId);
     }
 }

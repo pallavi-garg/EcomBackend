@@ -1,12 +1,19 @@
-﻿using System;
+﻿using ProductService.Shared;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ProductService.BusinessLogic.Interfaces
+namespace ProductService.BusinessLogic
 {
     public interface IProductDetailsProvider
     {
-        Task<string> GetProducts();
+        IEnumerable<ProductModel> GetAllProducts();
+
+        ProductModel GetProductById(string id);
+     
+        ProductModel GetProductByName(string name);
+
+        bool UpdateProductDetail(ProductModel inputData, string productId);
+        ProductModel AddProductDetail(ProductModel inputData);
+
+        bool DeleteProductById(string productId);
     }
 }

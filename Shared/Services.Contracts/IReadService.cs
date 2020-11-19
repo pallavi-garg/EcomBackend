@@ -26,11 +26,5 @@
         /// <param name="query"></param>
         /// <returns></returns>
         List<T> GetItemByQuery<T>(string query);
-
-        /// <summary>
-        /// Set Collection Id
-        /// </summary>
-        /// <param name="collectionId"></param>
-        void SetCollectionId(string collectionId);
     }
 }
