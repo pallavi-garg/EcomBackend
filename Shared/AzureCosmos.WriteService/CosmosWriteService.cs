@@ -5,11 +5,12 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
+    using Services.Contracts;
     using System;
     using System.Net;
     using System.Net.Http;
 
-    public class CosmosWriteService
+    public class CosmosWriteService : IWriteService
     {
         #region Private Members
 
