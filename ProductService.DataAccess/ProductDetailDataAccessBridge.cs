@@ -30,14 +30,7 @@ namespace ProductService.DataAccess
 
         public ProductModel GetProductById(string id)
         {
-            return new ProductModel()
-            {
-                IsAvailable = true,
-                Price = 123300,
-                ProductId = "XYZABC",
-                ProductName = "G-SHOCK",
-                ProductCategory = "Watches"
-            };
+            return readService.GetItemById<ProductModel>(id);
         }
 
         public ProductModel GetProductByName(string name)
