@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DataAccess.WebClient", "ProductService.DataAccess.WebClient\ProductService.DataAccess.WebClient.csproj", "{9F868E22-6989-48A9-834F-BD8EAFAF50C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DataAccess.SQL", "ProductService.DataAccess.SQL\ProductService.DataAccess.SQL.csproj", "{0DBE4354-9FB4-4006-89DA-82F5CDAF9BC0}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebServer", "WebServer", "{2B3999A4-C80F-4AB4-B018-5F39C406AA39}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{8A763D39-3371-430E-98BE-C60AD27C63E8}"
@@ -19,11 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Contracts", "Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.WebApi", "ProductService.WebApi\ProductService.WebApi.csproj", "{190EB634-8087-4FF2-ADE7-55BD7DEFCA34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.DataAccess", "ProductService.DataAccess\ProductService.DataAccess.csproj", "{CE8FD808-8A36-4315-AD21-4373BC80BFEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DataAccess", "ProductService.DataAccess\ProductService.DataAccess.csproj", "{CE8FD808-8A36-4315-AD21-4373BC80BFEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Shared", "Shared\ProductService.Shared\ProductService.Shared.csproj", "{1E1B938D-CE5F-4D11-8AA7-5F432955AE5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Shared", "Shared\ProductService.Shared\ProductService.Shared.csproj", "{1E1B938D-CE5F-4D11-8AA7-5F432955AE5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.BusinessLogic", "ProductService.BusinessLogic\ProductService.BusinessLogic.csproj", "{490681E4-062C-496A-9819-F02B1129C9A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.BusinessLogic", "ProductService.BusinessLogic\ProductService.BusinessLogic.csproj", "{490681E4-062C-496A-9819-F02B1129C9A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{9F868E22-6989-48A9-834F-BD8EAFAF50C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F868E22-6989-48A9-834F-BD8EAFAF50C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F868E22-6989-48A9-834F-BD8EAFAF50C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0DBE4354-9FB4-4006-89DA-82F5CDAF9BC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0DBE4354-9FB4-4006-89DA-82F5CDAF9BC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0DBE4354-9FB4-4006-89DA-82F5CDAF9BC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0DBE4354-9FB4-4006-89DA-82F5CDAF9BC0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13C02D3D-6B98-4E5B-929B-61F8D2EF1870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13C02D3D-6B98-4E5B-929B-61F8D2EF1870}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13C02D3D-6B98-4E5B-929B-61F8D2EF1870}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -73,7 +67,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9F868E22-6989-48A9-834F-BD8EAFAF50C0} = {2B3999A4-C80F-4AB4-B018-5F39C406AA39}
-		{0DBE4354-9FB4-4006-89DA-82F5CDAF9BC0} = {2B3999A4-C80F-4AB4-B018-5F39C406AA39}
 		{13C02D3D-6B98-4E5B-929B-61F8D2EF1870} = {8A763D39-3371-430E-98BE-C60AD27C63E8}
 		{775F142A-FAAD-4D0C-8E75-050FC6A5DE7C} = {8A763D39-3371-430E-98BE-C60AD27C63E8}
 		{2A1424A4-0D09-4F15-B5CE-C7A3582E5B4E} = {8A763D39-3371-430E-98BE-C60AD27C63E8}
