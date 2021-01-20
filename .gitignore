@@ -3,3 +3,12 @@
 ################################################################################
 
 /WebServices/ProductService
+/WebServices/OrderService/OrderService.API/obj
+/WebServices/OrderService/.vs/OrderService
+/WebServices/OrderService/OrderService.API/bin/Debug/netcoreapp3.1
+/WebServices/OrderService/OrderService.BusinessLogic/bin/Debug/netstandard2.1
+/WebServices/OrderService/OrderService.BusinessLogic/obj
+/WebServices/OrderService/OrderService.DataAccess.SQL/bin/Debug/netstandard2.1
+/WebServices/OrderService/OrderService.DataAccess.SQL/obj
+/WebServices/OrderService/OrderService.Shared/bin/Debug/netstandard2.1
+/WebServices/OrderService/OrderService.Shared/obj

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrderService.DataAccess.SQL\OrderService.DataAccess.SQL.csproj" />
+    <ProjectReference Include="..\OrderService.Shared\OrderService.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
