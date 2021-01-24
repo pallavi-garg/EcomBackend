@@ -1,6 +1,7 @@
 ﻿using AuthServer.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,16 +43,14 @@ namespace AuthServer
             {
                 options.DefaultSignOutScheme = IdentityConstants.ApplicationScheme;
             })
-            .AddGoogle("Google", options =>
+            .AddGoogleOpenIdConnect("Google", options =>
             {
                 options.CallbackPath = new PathString("/google-callback");
                 options.ClientId = "893567397745-8kmd15bluaqtg5k9rvihahaiifhnd0qj.apps.googleusercontent.com";
                 options.ClientSecret = "81zNhshVbZCrskaC1hwhza_q";
+                options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
-                options.AccessType = "offline";
-                options.TokenEndpoint = "https://oauth2.googleapis.com/token";
-                //options.UserInformationEndpoint = "https://openidconnect.googleapis.com/v1/userinfo";
-                options.Events = new OAuthEvents
+                options.Events = new OpenIdConnectEvents
                 {
                     OnRemoteFailure = (RemoteFailureContext context) =>
                     {

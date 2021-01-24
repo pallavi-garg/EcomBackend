@@ -21,6 +21,7 @@ namespace AuthServer.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
         }
+
         [Route("account/SignInWithGoogle")]
         public IActionResult SignInWithGoogle()
         {
@@ -37,7 +38,7 @@ namespace AuthServer.Controllers
             if (!result.Succeeded) //user does not exist yet
             {
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                var name = info.Principal.FindFirstValue("name");
                 var newUser = new AppUser
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -45,6 +46,7 @@ namespace AuthServer.Controllers
                     UserName = email,
                     Email = email,
                     LoginType = info.LoginProvider,
+                    EmailConfirmed = true
                 };
                 var createResult = await _userManager.CreateAsync(newUser);
                 if (!createResult.Succeeded)
@@ -65,16 +67,24 @@ namespace AuthServer.Controllers
 
             //    }
             //}
-            string redirectUrl = $"http://localhost:4200?token={info.AuthenticationTokens.FirstOrDefault(token => token.Name == "access_token").Value}";
+            string redirectUrl = $"http://localhost:4200?token={info.AuthenticationTokens.FirstOrDefault(token => token.Name == "id_token").Value}";
 
             return Redirect(redirectUrl);
         }
 
+        [Route("account/isAuthenticated")]
+        public IActionResult IsAuthenticated()
+        {
+            var s = _userManager.GetAuthenticationTokenAsync(_userManager.GetUserAsync(User).Result, "Google", "id_token").Result;
+            // add code to verify token expiry here
+            return new ObjectResult(User.Identity.IsAuthenticated);
+        }
+
         [Route("account/logout")]
-        public async Task<IActionResult> Logout()
+        public async Task<bool> Logout()
         {
             await _signInManager.SignOutAsync();
-            return Redirect("http://localhost:4200");
+            return true;
         }
     }
 }
