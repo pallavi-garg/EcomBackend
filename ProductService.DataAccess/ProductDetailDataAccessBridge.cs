@@ -38,6 +38,11 @@ namespace ProductService.DataAccess
             return new ProductModel();
         }
 
+        public List<ProductModel> SearchProduct(string query)
+        {
+            return readService.GetItemByQuery<ProductModel>(query);
+        }
+
         public bool UpdateProductDetail(ProductModel inputData, string productId)
         {
             return true;

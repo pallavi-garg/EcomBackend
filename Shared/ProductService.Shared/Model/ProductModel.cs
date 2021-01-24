@@ -1,5 +1,6 @@
 ﻿using ProductService.Shared.Model;
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace ProductService.Shared
@@ -47,7 +48,7 @@ namespace ProductService.Shared
         public ImageDetail[] Media { get; set; }
         
         [DataMember]
-        public FeatureDetail[] Features { get; set; }
+        public Dictionary<string,string> Features { get; set; }
     }
 
 }

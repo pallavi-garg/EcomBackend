@@ -11,6 +11,8 @@ namespace ProductService.DataAccess
 
         ProductModel GetProductByName(string name);
 
+        List<ProductModel> SearchProduct(string query);
+
         bool UpdateProductDetail(ProductModel inputData, string productId);
 
         bool DeleteProductById(string productId);

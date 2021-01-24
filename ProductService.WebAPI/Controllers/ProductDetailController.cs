@@ -34,6 +34,12 @@ namespace ProductService.WebAPI.Controllers
             return _productDetailProvider.GetProductByName(productName);
         }
 
+        [HttpGet("search")]
+        public ActionResult<List<ProductModel>> SearchProduct(List<SearchDTO> searchDetails)
+        {
+            return _productDetailProvider.SearchProduct(searchDetails);
+        }
+
         [HttpPut("{id}")]
         public bool UpdateProductDetail(string productId, [FromBody] ProductModel inputData)
         {
