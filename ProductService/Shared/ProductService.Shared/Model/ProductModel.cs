@@ -49,6 +49,9 @@ namespace ProductService.Shared
         
         [DataMember]
         public Dictionary<string,string> Features { get; set; }
+
+        [DataMember]
+        public uint Quantity { get; set; }
     }
 
 }

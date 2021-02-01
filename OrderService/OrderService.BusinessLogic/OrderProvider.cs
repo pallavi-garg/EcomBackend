@@ -38,6 +38,7 @@ namespace OrderService.BusinessLogic
         public void AddNewOrder(OrderDetails inputData)
         {
             _repo.Insert(inputData);
+
         }
     }
 }

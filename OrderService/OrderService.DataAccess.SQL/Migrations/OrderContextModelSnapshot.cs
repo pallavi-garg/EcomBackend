@@ -80,7 +80,7 @@ namespace OrderService.DataAccess.SQL.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OrderService.Shared.Model.Product_Order_Detail", b =>
+            modelBuilder.Entity("OrderService.Shared.Model.ProductOrderDetail", b =>
                 {
                     b.Property<Guid>("ProductOrderDetailID")
                         .ValueGeneratedOnAdd()

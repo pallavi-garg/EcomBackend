@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OrderService.Shared.Model
 {
-    public class Product_Order_Detail
+    public class ProductOrderDetail
     {
         [Key]
         public Guid ProductOrderDetailID { get; set; }

@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderService.Shared.Model;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OrderService.DataAccess.SQL
 {
@@ -14,7 +12,7 @@ namespace OrderService.DataAccess.SQL
         }
 
         public DbSet<OrderDetails> Order { get; set; }
-        public DbSet<Product_Order_Detail> ProductOrderDetail { get; set; }
+        public DbSet<ProductOrderDetail> ProductOrderDetail { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
