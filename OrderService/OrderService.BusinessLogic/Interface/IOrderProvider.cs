@@ -1,7 +1,5 @@
 ﻿using OrderService.Shared.Model;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace OrderService.BusinessLogic.Interface
 {
@@ -9,12 +7,12 @@ namespace OrderService.BusinessLogic.Interface
     {
         IEnumerable<OrderDetails> GetAllOrders();
 
-        OrderDetails GetOrderById(int id);
+        OrderDetails GetOrderById(string id);
 
         void UpdateOrderDetail(OrderDetails inputData);
 
-        void AddNewOrder(OrderDetails inputData);
+        string AddNewOrder(Order inputData);
 
-        void DeleteOrderById(int orderId);
+        void DeleteOrderById(string orderId);
     }
 }

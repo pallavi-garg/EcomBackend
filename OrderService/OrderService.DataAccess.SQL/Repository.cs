@@ -24,19 +24,20 @@
         {
             return _context.Order.ToList();
         }
-        public OrderDetails GetById(int OrderId)
+        public OrderDetails GetById(string OrderId)
         {
             return _context.Order.Find(OrderId);
         }
-        public void Insert(OrderDetails orderDetail)
+        public void Insert(OrderDetails orderDetail, List<ProductOrderDetail> productOrderDetails)
         {
+            //TODO: pass productOrderDetails
             _context.Order.Add(orderDetail);
         }
         public void Update(OrderDetails orderDetails)
         {
             _context.Entry(orderDetails).State = EntityState.Modified;
         }
-        public void Delete(int orderId)
+        public void Delete(string orderId)
         {
             OrderDetails employee = _context.Order.Find(orderId);
             _context.Order.Remove(employee);

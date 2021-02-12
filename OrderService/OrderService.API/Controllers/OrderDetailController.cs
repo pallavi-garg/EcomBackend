@@ -21,7 +21,7 @@ namespace OrderService.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<OrderDetails> GetOrderById(int id)
+        public ActionResult<OrderDetails> GetOrderById(string id)
         {
             return _orderProvider.GetOrderById(id);
         }
@@ -39,13 +39,13 @@ namespace OrderService.API.Controllers
         }
 
         [HttpPost("AddNew")]
-        public void AddNewOrder([FromBody] OrderDetails inputData)
+        public void AddNewOrder([FromBody] Order inputData)
         {
             _orderProvider.AddNewOrder(inputData);
         }
 
         [HttpDelete("{Id}")]
-        public void DeleteOrderById(int id)
+        public void DeleteOrderById(string id)
         {
             _orderProvider.DeleteOrderById(id);
         }

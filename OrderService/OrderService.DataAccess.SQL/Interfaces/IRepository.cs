@@ -9,13 +9,13 @@ namespace OrderService.DataAccess.SQL.Interfaces
     {
         IEnumerable<OrderDetails> GetAll();
 
-        OrderDetails GetById(int OrderId);
+        OrderDetails GetById(string OrderId);
 
-        void Insert(OrderDetails orderDetail);
+        void Insert(OrderDetails orderDetail, List<ProductOrderDetail> productOrderDetails);
 
         void Update(OrderDetails orderDetails);
 
-        void Delete(int orderId);
+        void Delete(string orderId);
 
         void Save();       
     }

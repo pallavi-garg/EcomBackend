@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OrderService.AzureBus
 {
-    public class Sender
+    public class MessageSender
     {
-        public static async Task SendOrderPlacedAsync(IEnumerable<ProductOrder> orderDetails)
+        public static async Task SendOrderPlacedAsync(List<ProductOrder> orderDetails)
         {
             var client = new QueueClient(Settings.ConnectionString, Settings.QueueName);
 

@@ -1,15 +1,16 @@
-﻿using OrderService.Shared.Model;
+﻿using OrderService.AzureBus;
+using OrderService.Shared.Model;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OrderService.AzureBus
+namespace OrderService.BusinessLogic
 {
     /// <summary>
     /// Creates the message to be sent on message queue
     /// </summary>
     internal static class ProductOrderMessageCreator
     {
-        internal static IEnumerable<ProductOrder> CreateUpdateProductinventoryMessage(IEnumerable<ProductOrderDetail> productOrderDetails)
+        internal static List<ProductOrder> CreateUpdateProductinventoryMessage(List<ProductOrderDetail> productOrderDetails)
         {
             List<ProductOrder> productOrders = new List<ProductOrder>();
 
@@ -22,7 +23,7 @@ namespace OrderService.AzureBus
                 }
                 else
                 {
-                    order = new ProductOrder() { ProductId = orderDetail.ProductId, SKU = orderDetail.SKU, OrderId = orderDetail.OrderId, Quantity = 1 };
+                    order = new ProductOrder() { ProductId = orderDetail.ProductId, SKU = orderDetail.SKU, Quantity = 1 };
                     productOrders.Add(order);
                 }
             }
