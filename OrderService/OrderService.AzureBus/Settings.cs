@@ -1,6 +1,6 @@
 ﻿namespace OrderService.AzureBus
 {
-    public class Setting
+    public class Settings
     {
         //ToDo: Enter a valid Service Bus connection string
         public static string ConnectionString = "";

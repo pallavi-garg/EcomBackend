@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OrderService.AzureBus
+namespace ProductService.AzureBus
 {
     public class ProductOrder
     {

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ProductService.AzureBus;
 using ProductService.BusinessLogic;
 using ProductService.DataAccess;
 using Services.Contracts;
@@ -28,6 +29,7 @@ namespace ProductService.WebApi
             // DI injection
             services.AddSingleton<IProductDetailsProvider, ProductDetailsProviders>();
             services.AddSingleton<IBaseDataAccessBridge, DataAccessBridge>();
+            services.AddSingleton<IProductInventoryManager, ProductInventoryManager>();
             
             services.AddTransient<IReadService, CosmosReadService>(provider => new CosmosReadService(provider.GetService<IConfiguration>(),
                 "CosmosEndpointConnectionString", "CosmosDatabaseId", "ProductDetailsCosmosCollectionId", provider.GetService<ILogger<CosmosReadService>>()));

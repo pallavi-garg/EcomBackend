@@ -10,7 +10,7 @@ namespace OrderService.AzureBus
     {
         public static async Task SendOrderPlacedAsync(IEnumerable<ProductOrder> orderDetails)
         {
-            var client = new QueueClient(Setting.ConnectionString, Setting.QueueName);
+            var client = new QueueClient(Settings.ConnectionString, Settings.QueueName);
 
             var messageList = new List<Message>();
 
