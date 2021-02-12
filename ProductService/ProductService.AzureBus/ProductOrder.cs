@@ -6,7 +6,6 @@ namespace ProductService.AzureBus
     {
         public string ProductId { get; internal set; }
         public string SKU { get; internal set; }
-        public String OrderId { get; internal set; }
         public uint Quantity { get; internal set; }
     }
 }

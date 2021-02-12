@@ -36,6 +36,8 @@ namespace ProductService.WebApi
             services.AddTransient<IWriteService, CosmosWriteService>(provider => new CosmosWriteService(provider.GetService<IConfiguration>(),
                 "CosmosEndpointConnectionString", "CosmosDatabaseId", "ProductDetailsCosmosCollectionId", provider.GetService<ILogger<CosmosWriteService>>()));
 
+            services.AddSingleton<IMessageReceiver, MessageReceiver>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +58,10 @@ namespace ProductService.WebApi
             {
                 endpoints.MapControllers();
             });
+
+            var messageReceiver = app.ApplicationServices.GetService<IMessageReceiver>();
+            //TODO: Uncomment when service bus settings are added
+            //messageReceiver.StartReceivingOrdersMadeRequest(1);
         }
     }
 }

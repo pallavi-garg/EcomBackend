@@ -1,18 +1,24 @@
 ﻿using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace ProductService.AzureBus
 {
-    public static class MessageReceiver
+    public class MessageReceiver : IMessageReceiver
     {
-        private static QueueClient QueueClient;
+        private QueueClient QueueClient;
 
-        public static void StartReceivingOrdersMadeRequest(int threads)
+        IProductInventoryManager _productInventoryManager;
+
+        public MessageReceiver(IProductInventoryManager productInventoryManager)
+        {
+            _productInventoryManager = productInventoryManager;
+        }
+
+        public void StartReceivingOrdersMadeRequest(int threads)
         {
             // Create a new client
             QueueClient = new QueueClient(Settings.ConnectionString, Settings.QueueName);
@@ -30,13 +36,13 @@ namespace ProductService.AzureBus
 
         }
 
-        public static async Task StopReceivingOrdersMadeRequest()
+        public async Task StopReceivingOrdersMadeRequest()
         {
             // Close the client, which will stop the message pump.
             await QueueClient.CloseAsync();
         }
 
-        private static async Task ProcessOrdersMadeMessageAsync(Message message, CancellationToken token)
+        private async Task ProcessOrdersMadeMessageAsync(Message message, CancellationToken token)
         {
 
             // Deserialize the message body.
@@ -52,12 +58,12 @@ namespace ProductService.AzureBus
 
         }
 
-        private static void UpdateProductOrder(ProductOrder order)
+        private void UpdateProductOrder(ProductOrder order)
         {
-
+            _productInventoryManager?.UpdateProductQuantity(order);
         }
 
-        private static Task ExceptionReceivedHandler(ExceptionReceivedEventArgs exceptionReceivedEventArgs)
+        private Task ExceptionReceivedHandler(ExceptionReceivedEventArgs exceptionReceivedEventArgs)
         {
             //Add log
             return Task.CompletedTask;

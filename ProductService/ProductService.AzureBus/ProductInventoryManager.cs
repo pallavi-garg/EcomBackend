@@ -15,13 +15,12 @@ namespace ProductService.AzureBus
         /// 
         /// </summary>
         /// <param name="productModel"></param>
-        /// <param name="delta"></param>
-        public void UpdateProductQuantity(ProductOrder product, int delta)
+        public void UpdateProductQuantity(ProductOrder product)
         {
             var matchedProduct = _productDetailProvider.GetAllProducts().FirstOrDefault(p => p.Sku == product.SKU && p.ProductId == product.ProductId);
             if (matchedProduct != null)
             {
-                matchedProduct.Quantity = (uint)((int)matchedProduct.Quantity + delta);
+                matchedProduct.Quantity = (uint)((int)matchedProduct.Quantity + product.Quantity);
                 _productDetailProvider.UpdateProductDetail(matchedProduct, matchedProduct.ProductId);
             }
         }

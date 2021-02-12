@@ -9,7 +9,6 @@
         /// 
         /// </summary>
         /// <param name="product"></param>
-        /// <param name="delta"></param>
-        void UpdateProductQuantity(ProductOrder product, int delta)
+        void UpdateProductQuantity(ProductOrder product);
     }
 }
