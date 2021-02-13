@@ -40,6 +40,12 @@ namespace ProductService.WebAPI.Controllers
             return _productDetailProvider.SearchProduct(searchDetails);
         }
 
+        [HttpGet("department/{departmentId}")]
+        public ActionResult<List<ProductModel>> SearchProductByDepartment(string departmentId)
+        {
+            return _productDetailProvider.GetProductByDepartment(departmentId);
+        }
+
         [HttpPut("{id}")]
         public bool UpdateProductDetail(string productId, [FromBody] ProductModel inputData)
         {

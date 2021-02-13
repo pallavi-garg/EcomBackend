@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\AzureCosmos.ReadService\AzureCosmos.ReadService.csproj" />
     <ProjectReference Include="..\Shared\AzureCosmos.WriteService\AzureCosmos.WriteService.csproj" />
+    <ProjectReference Include="..\Shared\IoC\IoC.csproj" />
     <ProjectReference Include="..\Shared\Services.Contracts\Services.Contracts.csproj" />
   </ItemGroup>
 

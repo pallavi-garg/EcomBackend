@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace ProductService.BusinessLogic
 {
-    public class ProductDetailsProviders : IProductDetailsProvider
+    public class ProductDetailsProvider : IProductDetailsProvider
     {
         IBaseDataAccessBridge _baseDataAccessBridge;
-        public ProductDetailsProviders(IBaseDataAccessBridge baseDataAccessBridge)
+        public ProductDetailsProvider(IBaseDataAccessBridge baseDataAccessBridge)
         {
             _baseDataAccessBridge = baseDataAccessBridge;
         }
@@ -34,13 +34,20 @@ namespace ProductService.BusinessLogic
             return _baseDataAccessBridge.GetProductByName(name);
         }
 
+        public List<ProductModel> GetProductByDepartment(string department)
+        {
+            string query = $"Select * from c where c.Department = '{department.ToLower()}'";
+
+            return _baseDataAccessBridge.SearchProduct(query);
+        }
+
         public List<ProductModel> SearchProduct(List<SearchDTO> searchDetails)
         {
             string query = "Select * from c where ";
             
             foreach(var item in searchDetails)
             {
-                query = $"{query} c.Features.{item.Key} in ({string.Join(",", item.Value.Select(value => $"'{value}'"))})";
+                query = $"{query} c.Features.{item.Key} in ({string.Join(",", item.Value.Select(value => $"'{value.ToLower()}'"))})";
                 if(searchDetails.Last() != item)
                 {
                     query = $"{query} and";

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ProductService.BusinessLogic\ProductService.BusinessLogic.csproj" />
+    <ProjectReference Include="..\..\ProductService.DataAccess\ProductService.DataAccess.csproj" />
+    <ProjectReference Include="..\AzureCosmos.ReadService\AzureCosmos.ReadService.csproj" />
+    <ProjectReference Include="..\AzureCosmos.WriteService\AzureCosmos.WriteService.csproj" />
+    <ProjectReference Include="..\Services.Contracts\Services.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

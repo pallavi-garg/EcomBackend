@@ -11,6 +11,9 @@ namespace ProductService.BusinessLogic
      
         ProductModel GetProductByName(string name);
 
+        List<ProductModel> GetProductByDepartment(string department);
+
+
         List<ProductModel> SearchProduct(List<SearchDTO> searchDetails);
 
         bool UpdateProductDetail(ProductModel inputData, string productId);

@@ -24,15 +24,15 @@
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="connectionSring"></param>
-        /// <param name="cosmosDatabaseId"></param>
-        /// <param name="containerName"></param>
+        /// <param name="connectionStringKey"></param>
+        /// <param name="cosmosDatabaseIdKey"></param>
+        /// <param name="containerNameKey"></param>
         /// <param name="logger"></param>
-        public CosmosReadService(IConfiguration configuration, string connectionSring, string cosmosDatabaseId, string containerName,
+        public CosmosReadService(IConfiguration configuration, string connectionStringKey, string cosmosDatabaseIdKey, string containerNameKey,
             ILogger<CosmosReadService> logger)
         {
-            CosmosClient cosmosClient = new CosmosClient(configuration[connectionSring]);
-            container = cosmosClient.GetContainer(configuration[cosmosDatabaseId], configuration[containerName]);
+            CosmosClient cosmosClient = new CosmosClient(configuration[connectionStringKey]);
+            container = cosmosClient.GetContainer(configuration[cosmosDatabaseIdKey], configuration[containerNameKey]);
             this.logger = logger;
         }
 
