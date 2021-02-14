@@ -1,16 +1,15 @@
+using CartService.BusinessLogic;
+using CartService.BusinessLogic.Interface;
+using CartService.DataAccess.SQL;
+using CartService.DataAccess.SQL.Interfaces;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using OrderService.DataAccess.SQL;
-using OrderService.DataAccess.SQL.Interfaces;
-using OrderService.DataAccess;
-using OrderService.BusinessLogic.Interface;
-using OrderService.BusinessLogic;
 
-namespace OrderService.API
+namespace CartService
 {
     public class Startup
     {
@@ -27,11 +26,10 @@ namespace OrderService.API
             services.AddControllers();
             services.AddDbContextPool<DBContext>(options =>
             {
-                options.UseSqlServer(Configuration["ConnectionString:OrderDB"]);
+                options.UseSqlServer(Configuration["ConnectionString:CartDB"]);
             });
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IOrderProvider, OrderProvider>();
-            //services.AddAuthentication();
+            services.AddScoped<ICartInfoProvider, CartInfoProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

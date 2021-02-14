@@ -1,9 +1,6 @@
-﻿using OrderService.Shared.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace OrderService.DataAccess.SQL.Interfaces
+namespace CartService.DataAccess.SQL.Interfaces
 {
     public interface IRepository<T> where T : BaseEntity
     {

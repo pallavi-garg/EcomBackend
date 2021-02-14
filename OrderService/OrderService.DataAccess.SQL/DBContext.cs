@@ -4,9 +4,9 @@ using System;
 
 namespace OrderService.DataAccess.SQL
 {
-    public class OrderContext: DbContext
+    public class DBContext: DbContext
     {
-        public OrderContext(DbContextOptions opts): base(opts)
+        public DBContext(DbContextOptions opts): base(opts)
         {
 
         }
@@ -23,7 +23,7 @@ namespace OrderService.DataAccess.SQL
                 InvoiceNumber = "#12345",
                 ModifiedDate = DateTime.Now,
                 OrderDate = DateTime.Now,
-                OrderId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 OrderStatus = "Confirmed",
                 PaymentId = Guid.NewGuid().ToString(),
                 PromotionId = "#1qaz2wsx"
@@ -35,7 +35,7 @@ namespace OrderService.DataAccess.SQL
                 InvoiceNumber = "#4567",
                 ModifiedDate = DateTime.Now,
                 OrderDate = DateTime.Now,
-                OrderId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 OrderStatus = "Awaiting",
                 PaymentId = Guid.NewGuid().ToString(),
                 PromotionId = "#3edc$RFV"

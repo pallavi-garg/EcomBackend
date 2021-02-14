@@ -10,8 +10,8 @@ using OrderService.DataAccess.SQL;
 namespace OrderService.DataAccess.SQL.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20210120195513_OrderService.DataAccess.SQL.OrderContext")]
-    partial class OrderServiceDataAccessSQLOrderContext
+    [Migration("20210214142209_UpdateFirstMigration")]
+    partial class UpdateFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,12 +23,15 @@ namespace OrderService.DataAccess.SQL.Migrations
 
             modelBuilder.Entity("OrderService.Shared.Model.OrderDetails", b =>
                 {
-                    b.Property<Guid>("OrderId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AddressId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(max)");
@@ -51,42 +54,50 @@ namespace OrderService.DataAccess.SQL.Migrations
                     b.Property<string>("PromotionId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("Id");
 
                     b.ToTable("Order");
 
                     b.HasData(
                         new
                         {
-                            OrderId = new Guid("3a91c648-9026-47fd-96fd-a5d95c93b6b6"),
+                            Id = new Guid("99a673d1-957a-435c-8ce5-b5cff95f8732"),
                             AddressId = "New Address",
-                            CustomerId = "7121c0df-29a2-4d3f-be86-1dc9df3b39ec",
+                            CreatedAt = new DateTime(2021, 2, 14, 15, 22, 8, 500, DateTimeKind.Local).AddTicks(435),
+                            CustomerId = "a343e671-93af-47cb-b7a8-99fac10f1f01",
                             InvoiceNumber = "#12345",
-                            ModifiedDate = new DateTime(2021, 1, 20, 20, 55, 12, 464, DateTimeKind.Local).AddTicks(1550),
-                            OrderDate = new DateTime(2021, 1, 20, 20, 55, 12, 467, DateTimeKind.Local).AddTicks(2142),
+                            ModifiedDate = new DateTime(2021, 2, 14, 15, 22, 8, 503, DateTimeKind.Local).AddTicks(2196),
+                            OrderDate = new DateTime(2021, 2, 14, 15, 22, 8, 503, DateTimeKind.Local).AddTicks(2754),
                             OrderStatus = "Confirmed",
-                            PaymentId = "b98bc5ab-9e76-410b-8736-b6ef0993048a",
+                            PaymentId = "33bafcb3-ccc7-435d-98fc-49f4b13cd71a",
                             PromotionId = "#1qaz2wsx"
                         },
                         new
                         {
-                            OrderId = new Guid("82d25416-6e9e-4463-8f1a-d94187754787"),
+                            Id = new Guid("5fac4791-15bb-453a-aaa9-5ed35f62f1de"),
                             AddressId = "Old Address",
-                            CustomerId = "59371016-2302-4790-ba7d-6f0339343907",
+                            CreatedAt = new DateTime(2021, 2, 14, 15, 22, 8, 503, DateTimeKind.Local).AddTicks(5270),
+                            CustomerId = "54ca7ed4-0042-4a0f-97ff-c0f9fad12c43",
                             InvoiceNumber = "#4567",
-                            ModifiedDate = new DateTime(2021, 1, 20, 20, 55, 12, 467, DateTimeKind.Local).AddTicks(5077),
-                            OrderDate = new DateTime(2021, 1, 20, 20, 55, 12, 467, DateTimeKind.Local).AddTicks(5103),
+                            ModifiedDate = new DateTime(2021, 2, 14, 15, 22, 8, 503, DateTimeKind.Local).AddTicks(5321),
+                            OrderDate = new DateTime(2021, 2, 14, 15, 22, 8, 503, DateTimeKind.Local).AddTicks(5330),
                             OrderStatus = "Awaiting",
-                            PaymentId = "a0baf6ec-63ee-4c88-8d6f-057ba4b456aa",
+                            PaymentId = "e5c70f5f-3cdd-43ed-a1cc-d009fe7e0166",
                             PromotionId = "#3edc$RFV"
                         });
                 });
 
             modelBuilder.Entity("OrderService.Shared.Model.ProductOrderDetail", b =>
                 {
-                    b.Property<Guid>("ProductOrderDetailID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(max)");
@@ -103,7 +114,7 @@ namespace OrderService.DataAccess.SQL.Migrations
                     b.Property<decimal>("Tax")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("ProductOrderDetailID");
+                    b.HasKey("Id");
 
                     b.ToTable("ProductOrderDetail");
                 });

@@ -1,9 +1,7 @@
-﻿namespace OrderService.DataAccess
+﻿namespace CartService.DataAccess.SQL
 {
+    using CartService.DataAccess.SQL.Interfaces;
     using Microsoft.EntityFrameworkCore;
-    using OrderService.DataAccess.SQL;
-    using OrderService.DataAccess.SQL.Interfaces;
-    using OrderService.Shared.Model;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -48,13 +46,14 @@
             if (id == null) throw new ArgumentNullException("entity");
 
             T entity = entities.FirstOrDefault(s => s.Id.ToString() == id);
-            if(entity != null)
+            if (entity != null)
             {
 
                 entities.Remove(entity);
                 Save();
             }
         }
+
         public void Save()
         {
             _context.SaveChanges();

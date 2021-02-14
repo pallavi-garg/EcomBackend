@@ -10,10 +10,12 @@ namespace OrderService.BusinessLogic
 {
     public class OrderProvider : IOrderProvider
     {
-        IRepository _repo;
-        public OrderProvider(IRepository repo)
+        private readonly IRepository<OrderDetails> _repo;
+        private readonly IRepository<ProductOrderDetail> _productDetailRepo;
+        public OrderProvider(IRepository<OrderDetails> repo, IRepository<ProductOrderDetail> productDetailRepo)
         {
             _repo = repo;
+            _productDetailRepo = productDetailRepo;
         }
 
         public void DeleteOrderById(string orderId)
@@ -42,7 +44,11 @@ namespace OrderService.BusinessLogic
             OrderDetails orderDetails = new OrderDetails();
             List<ProductOrderDetail> productOrderDetails = new List<ProductOrderDetail>();
             FillOrderAndProductDetails(inputData, orderId, ref orderDetails, ref productOrderDetails);
-            _repo.Insert(orderDetails, productOrderDetails);
+            _repo.Insert(orderDetails);
+            productOrderDetails.ForEach(item =>
+            {
+                _productDetailRepo.Insert(item);
+            });
 
             MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(productOrderDetails)).Wait();
 
@@ -51,7 +57,7 @@ namespace OrderService.BusinessLogic
 
         private void FillOrderAndProductDetails(Order inputData, Guid orderId, ref OrderDetails orderDetails, ref List<ProductOrderDetail> productOrderDetails)
         {
-            orderDetails.OrderId = orderId;
+            orderDetails.Id = orderId;
             orderDetails.OrderDate = DateTime.Now;
             orderDetails.PaymentId = inputData.PaymentId;
             orderDetails.AddressId = inputData.AddressId;
@@ -62,7 +68,7 @@ namespace OrderService.BusinessLogic
                 productOrderDetails.Add(new ProductOrderDetail()
                 {
                     OrderId = orderId.ToString(),
-                    ProductOrderDetailID = new Guid(),
+                    Id = new Guid(),
                     ProductId = product.ProductId,
                     ProductPurchasePrice = product.ProductPurchasePrice,
                     SKU = product.SKU
