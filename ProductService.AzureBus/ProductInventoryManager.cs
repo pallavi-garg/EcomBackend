@@ -17,7 +17,7 @@ namespace ProductService.AzureBus
         /// <param name="productModel"></param>
         public void UpdateProductQuantity(ProductOrder product)
         {
-            var matchedProduct = _productDetailProvider.GetAllProducts().FirstOrDefault(p => p.Sku == product.SKU && p.ProductId == product.ProductId);
+            var matchedProduct = _productDetailProvider.GetAllProducts(null).Data?.FirstOrDefault(p => p.Sku == product.SKU && p.ProductId == product.ProductId);
             if (matchedProduct != null)
             {
                 matchedProduct.Quantity = matchedProduct.Quantity - product.Quantity;
