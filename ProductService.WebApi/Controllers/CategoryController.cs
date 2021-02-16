@@ -18,9 +18,9 @@ namespace ProductService.WebAPI.Controllers
 
 
         [HttpGet("department/{departmentId}")]
-        public ActionResult<List<Category>> SearchCategoryByDepartment(string departmentId)
+        public ActionResult<SearchResult<Category>> SearchCategoryByDepartment(string departmentId, [FromHeader] string continuationToken)
         {
-            return _categoryProvider.GetCategoryByDepartment(departmentId);
+            return _categoryProvider.GetCategoryByDepartment(departmentId, continuationToken);
         }
 
 

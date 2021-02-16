@@ -5,16 +5,16 @@ namespace ProductService.BusinessLogic
 {
     public interface IProductDetailsProvider
     {
-        IEnumerable<ProductModel> GetAllProducts();
+        SearchResult<ProductModel> GetAllProducts(string continuationToken);
 
         ProductModel GetProductById(string id);
      
         ProductModel GetProductByName(string name);
 
-        List<ProductModel> GetProductByDepartment(string department);
+        SearchResult<ProductModel> GetProductByDepartment(string department, string continuationToken);
 
 
-        List<ProductModel> SearchProduct(List<SearchDTO> searchDetails);
+        SearchResult<ProductModel> SearchProduct(List<SearchDTO> searchDetails, string continuationToken);
 
         bool UpdateProductDetail(ProductModel inputData, string productId);
 

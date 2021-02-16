@@ -19,9 +19,9 @@ namespace ProductService.BusinessLogic
             return _baseDataAccessBridge.DeleteProductById(productId);
         }
 
-        public IEnumerable<ProductModel> GetAllProducts()
+        public SearchResult<ProductModel> GetAllProducts(string continuationToken)
         {
-            return _baseDataAccessBridge.GetAllProducts();
+            return _baseDataAccessBridge.GetAllProducts(continuationToken);
         }
 
         public ProductModel GetProductById(string id)
@@ -34,14 +34,21 @@ namespace ProductService.BusinessLogic
             return _baseDataAccessBridge.GetProductByName(name);
         }
 
-        public List<ProductModel> GetProductByDepartment(string department)
+        public SearchResult<ProductModel> GetProductByDepartment(string department, string continuationToken)
         {
+            SearchResult<ProductModel> searchResult = new SearchResult<ProductModel>();
             string query = $"Select * from c where c.Department = '{department.ToLower()}'";
 
-            return _baseDataAccessBridge.SearchProduct(query);
+            searchResult = _baseDataAccessBridge.SearchProduct(query, continuationToken);
+
+            query = $"Select count(1) from c where c.Department = '{department.ToLower()}'";
+
+            searchResult.TotalCount = _baseDataAccessBridge.GetProductCount(query);
+
+            return searchResult;
         }
 
-        public List<ProductModel> SearchProduct(List<SearchDTO> searchDetails)
+        public SearchResult<ProductModel> SearchProduct(List<SearchDTO> searchDetails, string continuationToken)
         {
             string query = "Select * from c where ";
             
@@ -53,7 +60,7 @@ namespace ProductService.BusinessLogic
                     query = $"{query} and";
                 }
             }
-            return _baseDataAccessBridge.SearchProduct(query);
+            return _baseDataAccessBridge.SearchProduct(query, continuationToken);
         }
 
         public bool UpdateProductDetail(ProductModel inputData, string productId)

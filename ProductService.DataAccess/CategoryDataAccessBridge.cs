@@ -22,9 +22,9 @@ namespace ProductService.DataAccess
             return new Category();
         }
 
-        public List<Category> SearchCategory(string query)
+        public SearchResult<Category> SearchCategory(string query, string continuationToken)
         {
-            return readService.GetItemByQuery<Category>(query);
+            return readService.GetItemByQuery<Category>(query, continuationToken);
         }
 
         public bool UpdateCategory(Category inputData, string categoryId)

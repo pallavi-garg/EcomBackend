@@ -6,7 +6,7 @@ namespace ProductService.BusinessLogic
     public interface ICategoryProvider
     {
 
-        List<Category> GetCategoryByDepartment(string department);
+        SearchResult<Category> GetCategoryByDepartment(string department, string continuationToken);
 
         bool UpdateCategory(Category inputData, string categoryId);
 
