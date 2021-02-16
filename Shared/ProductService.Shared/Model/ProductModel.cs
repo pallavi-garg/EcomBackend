@@ -36,7 +36,7 @@ namespace ProductService.Shared
         public string Sku { get; set; }
 
         [DataMember]
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
 
         [DataMember]
         public string Price { get; set; }

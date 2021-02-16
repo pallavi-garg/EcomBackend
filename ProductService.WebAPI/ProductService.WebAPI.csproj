@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProductService.AzureBus\ProductService.AzureBus.csproj" />
     <ProjectReference Include="..\Shared\AzureCosmos.ReadService\AzureCosmos.ReadService.csproj" />
     <ProjectReference Include="..\Shared\AzureCosmos.WriteService\AzureCosmos.WriteService.csproj" />
     <ProjectReference Include="..\Shared\IoC\IoC.csproj" />
