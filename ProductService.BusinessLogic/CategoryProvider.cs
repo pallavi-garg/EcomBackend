@@ -13,11 +13,11 @@ namespace ProductService.BusinessLogic
             _baseDataAccessBridge = baseDataAccessBridge;
         }
 
-        public List<Category> GetCategoryByDepartment(string department)
+        public SearchResult<Category> GetCategoryByDepartment(string department, string continuationToken)
         {
             string query = $"Select * from c where c.Department = '{department.ToLower()}'";
 
-            return _baseDataAccessBridge.SearchCategory(query);
+            return _baseDataAccessBridge.SearchCategory(query, continuationToken);
 
         }
 

@@ -3,6 +3,7 @@
     using Microsoft.Azure.Cosmos;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
+    using ProductService.Shared;
     using Services.Contracts;
     using System;
     using System.Collections.Generic;
@@ -69,12 +70,14 @@
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="query"></param>
+        /// <param name="continuationToken"></param>
         /// <returns></returns>
-        public List<T> GetItemByQuery<T>(string query)
+        public SearchResult<T> GetItemByQuery<T>(string query, string continuationToken)
         {
+            SearchResult<T> searchResult = new SearchResult<T>();
             List<T> documents = new List<T>();
 
-            using (var feedIterator = container.GetItemQueryIterator<T>(query))
+            using (var feedIterator = container.GetItemQueryIterator<T>(query, continuationToken, new QueryRequestOptions { MaxItemCount = 15 }))
             {
                 if (feedIterator.HasMoreResults)
                 {
@@ -85,21 +88,50 @@
                         throw new InvalidOperationException("Unable to get item by query.");
                     }
                     documents.AddRange(response.Resource);
+                    searchResult.ContinuationToken = response.ContinuationToken;
+                }
+                searchResult.Data = documents;
+            }
+            return searchResult;
+        }
+
+        /// <summary>
+        /// Get item count by query
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public int GetItemCountByQuery(string query)
+        {
+            int count = 0;
+            using (var feedIterator = container.GetItemQueryIterator<IDictionary<string, int>>(query))
+            {
+                if (feedIterator.HasMoreResults)
+                {
+                    var response = feedIterator.ReadNextAsync().Result;
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        logger.LogError($"Unable to get item by query. Api returned {response.StatusCode}");
+                        throw new InvalidOperationException("Unable to get item by query.");
+                    }
+                    count = response.First().First(x => x.Key == "$1").Value;
                 }
             }
-            return documents;
+            return count;
         }
+
+
 
         /// <summary>
         /// Get all the items
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public List<T> GetAllItems<T>()
+        public SearchResult<T> GetAllItems<T>(string continuationToken)
         {
+            SearchResult<T> searchResult = new SearchResult<T>();
             List<T> documents = new List<T>();
 
-            using (var feedIterator = container.GetItemQueryIterator<T>("SELECT * FROM c"))
+            using (var feedIterator = container.GetItemQueryIterator<T>("SELECT * FROM c", continuationToken, new QueryRequestOptions { MaxItemCount = 15 }))
             {
                 if (feedIterator.HasMoreResults)
                 {
@@ -110,9 +142,11 @@
                         throw new InvalidOperationException("Unable to get all items.");
                     }
                     documents.AddRange(response.Resource);
+                    searchResult.ContinuationToken = response.ContinuationToken;
                 }
+                searchResult.Data = documents;
             }
-            return documents;
+            return searchResult;
         }
 
         #endregion

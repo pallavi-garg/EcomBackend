@@ -9,7 +9,7 @@ namespace ProductService.DataAccess
 
         Category GetCategoryByName(string name);
 
-        List<Category> SearchCategory(string query);
+        SearchResult<Category> SearchCategory(string query, string continuationToken);
 
         bool UpdateCategory(Category inputData, string categoryId);
 
