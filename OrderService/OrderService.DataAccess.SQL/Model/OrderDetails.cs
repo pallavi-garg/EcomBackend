@@ -15,6 +15,6 @@ namespace OrderService.Shared.Model
         public string CustomerId { get; set; }
 
 
-        // Order Status 0 - Payment Pending, 1 = Payment Done, 2 = Shipped,3 = Order completed
+        // Order Status 0 - Payment Pending, 1 = Payment Done, 2 = Shipped,3 = Order completed, 4= Cancelled, 5= Returned
     }
 }
