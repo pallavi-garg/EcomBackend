@@ -1,5 +1,6 @@
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
+using ProductService.AzureBus;
 using Microsoft.Extensions.Hosting;
 
 namespace ProductService.WebApi
@@ -8,7 +9,11 @@ namespace ProductService.WebApi
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            var service = host.Services.GetService(typeof(IMessageReceiver)) as IMessageReceiver;
+            //TODO: Uncomment when service bus settings are added
+            //service.StartReceivingOrdersMadeRequest(1);
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

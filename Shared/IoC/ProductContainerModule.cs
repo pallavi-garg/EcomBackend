@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using AzureCosmos.ReadService;
 using AzureCosmos.WriteService;
+using Microsoft.Azure.ServiceBus.Core;
+using ProductService.AzureBus;
 using ProductService.BusinessLogic;
 using ProductService.DataAccess;
 using Services.Contracts;
@@ -58,6 +60,8 @@ namespace IoC
                 .WithParameter(new NamedParameter("connectionStringKey", "CosmosEndpointConnectionString"))
                 .WithParameter(new NamedParameter("cosmosDatabaseIdKey", "CosmosDatabaseId"))
                 .WithParameter(new NamedParameter("containerNameKey", "CatalogCosmosCollectionId"));
+            builder.RegisterType<ProductInventoryManager>().As<IProductInventoryManager>();
+            builder.RegisterType<ProductService.AzureBus.MessageReceiver>().As<ProductService.AzureBus.IMessageReceiver>().SingleInstance();
         }
     }
 }

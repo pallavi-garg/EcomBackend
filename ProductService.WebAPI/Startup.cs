@@ -53,7 +53,7 @@ namespace ProductService.WebApi
             RegisterCors(services);
 
             services.AddControllers();
-            services.AddSingleton<IMessageReceiver, MessageReceiver>();
+            //services.AddSingleton<IMessageReceiver, MessageReceiver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,10 +77,6 @@ namespace ProductService.WebApi
             {
                 endpoints.MapControllers();
             });
-
-            var messageReceiver = app.ApplicationServices.GetService<IMessageReceiver>();
-            //TODO: Uncomment when service bus settings are added
-            //messageReceiver.StartReceivingOrdersMadeRequest(1);
         }
 
         #region Private Methods

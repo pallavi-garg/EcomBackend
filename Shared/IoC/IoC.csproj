@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ProductService.AzureBus\ProductService.AzureBus.csproj" />
     <ProjectReference Include="..\..\ProductService.BusinessLogic\ProductService.BusinessLogic.csproj" />
     <ProjectReference Include="..\..\ProductService.DataAccess\ProductService.DataAccess.csproj" />
     <ProjectReference Include="..\AzureCosmos.ReadService\AzureCosmos.ReadService.csproj" />
