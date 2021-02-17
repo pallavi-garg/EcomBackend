@@ -27,6 +27,21 @@ namespace CartService.BusinessLogic
             // _cartRepo.DeleteAll();
         }
 
+        
+
+        public CartDetails GetCartDetailsByCustomerId(string customerId)
+        {
+            var cartData = _cartRepo.GetById(customerId);
+            return new CartDetails
+            {
+                CartId = cartData.Id.ToString(),
+                CustomerId = cartData.CustomerId,
+                CreatedDate = cartData.CreatedAt,
+                LastUpdated = cartData.ModifiedDate,
+                productInfo = new List<ShortProductDetails>()
+            };
+        }
+
         public CartDetails GetCartDetails(string cartId)
         {
             var cartData = _cartRepo.GetById(cartId);
@@ -36,7 +51,7 @@ namespace CartService.BusinessLogic
                 CustomerId = cartData.CustomerId,
                 CreatedDate = cartData.CreatedAt,
                 LastUpdated = cartData.ModifiedDate,
-                productInfo = new List<ProductModel>()
+                productInfo = new List<ShortProductDetails>()
             };
         }
 

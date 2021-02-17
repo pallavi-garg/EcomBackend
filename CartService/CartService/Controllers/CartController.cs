@@ -25,6 +25,12 @@ namespace CartService.Controllers
             return _cartProvider.GetCartDetails(id);
         }
 
+        [HttpGet("customerId/{customerId}")]
+        public ActionResult<CartDetails> GetCartDetailsByCustomerId(string customerId)
+        {
+            return _cartProvider.GetCartDetailsByCustomerId(customerId);
+        }
+
         [HttpPut("UpdateCart/{Id}")]
         public void UpdateCartDetail([FromBody] CartDetails inputData)
         {
