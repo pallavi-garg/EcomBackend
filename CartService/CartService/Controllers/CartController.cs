@@ -19,10 +19,10 @@ namespace CartService.Controllers
             _cartProvider = cartProvider;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<CartDetails> GetCartDetails(string id)
+        [HttpGet("{customerId}")]
+        public ActionResult<CartDetails> GetCartDetails(string customerId)
         {
-            return _cartProvider.GetCartDetails(id);
+            return _cartProvider.GetCartDetails(customerId);
         }
 
         [HttpPut("UpdateCart/{Id}")]

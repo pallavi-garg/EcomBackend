@@ -18,25 +18,27 @@ namespace OrderService.DataAccess.SQL
         {
             modelBuilder.Entity<OrderDetails>().HasData(new OrderDetails
             {
-                AddressId = "New Address",
+                BillingAddressId = "New Address",
+                ReceipentAddressId = "New Address",
                 CustomerId = Guid.NewGuid().ToString(),
                 InvoiceNumber = "#12345",
                 ModifiedDate = DateTime.Now,
                 OrderDate = DateTime.Now,
                 Id = Guid.NewGuid(),
-                OrderStatus = "Confirmed",
+                OrderStatus = 0,
                 PaymentId = Guid.NewGuid().ToString(),
                 PromotionId = "#1qaz2wsx"
 
             }, new OrderDetails
             {
-                AddressId = "Old Address",
+                BillingAddressId = "Old Address",
+                ReceipentAddressId = "Old Address",
                 CustomerId = Guid.NewGuid().ToString(),
                 InvoiceNumber = "#4567",
                 ModifiedDate = DateTime.Now,
                 OrderDate = DateTime.Now,
                 Id = Guid.NewGuid(),
-                OrderStatus = "Awaiting",
+                OrderStatus = 1,
                 PaymentId = Guid.NewGuid().ToString(),
                 PromotionId = "#3edc$RFV"
             });

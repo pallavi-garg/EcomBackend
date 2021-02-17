@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OrderService.DataAccess.SQL;
 
 namespace OrderService.DataAccess.SQL.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20210214142209_UpdateFirstMigration")]
-    partial class UpdateFirstMigration
+    partial class DBContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,7 +25,7 @@ namespace OrderService.DataAccess.SQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AddressId")
+                    b.Property<string>("BillingAddressId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -45,13 +43,16 @@ namespace OrderService.DataAccess.SQL.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OrderStatus")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<short>("OrderStatus")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("PaymentId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PromotionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceipentAddressId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -61,29 +62,31 @@ namespace OrderService.DataAccess.SQL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("99a673d1-957a-435c-8ce5-b5cff95f8732"),
-                            AddressId = "New Address",
-                            CreatedAt = new DateTime(2021, 2, 14, 15, 22, 8, 500, DateTimeKind.Local).AddTicks(435),
-                            CustomerId = "a343e671-93af-47cb-b7a8-99fac10f1f01",
+                            Id = new Guid("4d4b8bcc-66d1-42b2-a0fa-dde8ba2c9d8e"),
+                            BillingAddressId = "New Address",
+                            CreatedAt = new DateTime(2021, 2, 17, 17, 33, 29, 376, DateTimeKind.Local).AddTicks(2297),
+                            CustomerId = "f9d7cd3b-bd1d-4b0c-9eda-081b59335c97",
                             InvoiceNumber = "#12345",
-                            ModifiedDate = new DateTime(2021, 2, 14, 15, 22, 8, 503, DateTimeKind.Local).AddTicks(2196),
-                            OrderDate = new DateTime(2021, 2, 14, 15, 22, 8, 503, DateTimeKind.Local).AddTicks(2754),
-                            OrderStatus = "Confirmed",
-                            PaymentId = "33bafcb3-ccc7-435d-98fc-49f4b13cd71a",
-                            PromotionId = "#1qaz2wsx"
+                            ModifiedDate = new DateTime(2021, 2, 17, 17, 33, 29, 377, DateTimeKind.Local).AddTicks(2359),
+                            OrderDate = new DateTime(2021, 2, 17, 17, 33, 29, 377, DateTimeKind.Local).AddTicks(2856),
+                            OrderStatus = (short)0,
+                            PaymentId = "eb3a097c-d677-4f76-9dcc-265e7cf7baaa",
+                            PromotionId = "#1qaz2wsx",
+                            ReceipentAddressId = "New Address"
                         },
                         new
                         {
-                            Id = new Guid("5fac4791-15bb-453a-aaa9-5ed35f62f1de"),
-                            AddressId = "Old Address",
-                            CreatedAt = new DateTime(2021, 2, 14, 15, 22, 8, 503, DateTimeKind.Local).AddTicks(5270),
-                            CustomerId = "54ca7ed4-0042-4a0f-97ff-c0f9fad12c43",
+                            Id = new Guid("7668eea2-23b7-481b-bae4-b35b62b8cab2"),
+                            BillingAddressId = "Old Address",
+                            CreatedAt = new DateTime(2021, 2, 17, 17, 33, 29, 377, DateTimeKind.Local).AddTicks(5130),
+                            CustomerId = "36192d7f-0987-4db5-a47f-240bfb80f5de",
                             InvoiceNumber = "#4567",
-                            ModifiedDate = new DateTime(2021, 2, 14, 15, 22, 8, 503, DateTimeKind.Local).AddTicks(5321),
-                            OrderDate = new DateTime(2021, 2, 14, 15, 22, 8, 503, DateTimeKind.Local).AddTicks(5330),
-                            OrderStatus = "Awaiting",
-                            PaymentId = "e5c70f5f-3cdd-43ed-a1cc-d009fe7e0166",
-                            PromotionId = "#3edc$RFV"
+                            ModifiedDate = new DateTime(2021, 2, 17, 17, 33, 29, 377, DateTimeKind.Local).AddTicks(5182),
+                            OrderDate = new DateTime(2021, 2, 17, 17, 33, 29, 377, DateTimeKind.Local).AddTicks(5192),
+                            OrderStatus = (short)1,
+                            PaymentId = "9a9367ab-db44-4953-800e-fea964f2f52f",
+                            PromotionId = "#3edc$RFV",
+                            ReceipentAddressId = "Old Address"
                         });
                 });
 

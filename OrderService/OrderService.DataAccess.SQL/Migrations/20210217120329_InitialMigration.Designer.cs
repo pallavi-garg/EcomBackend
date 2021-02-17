@@ -10,8 +10,8 @@ using OrderService.DataAccess.SQL;
 namespace OrderService.DataAccess.SQL.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20210120195513_OrderService.DataAccess.SQL.OrderContext")]
-    partial class OrderServiceDataAccessSQLOrderContext
+    [Migration("20210217120329_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,12 +23,15 @@ namespace OrderService.DataAccess.SQL.Migrations
 
             modelBuilder.Entity("OrderService.Shared.Model.OrderDetails", b =>
                 {
-                    b.Property<Guid>("OrderId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AddressId")
+                    b.Property<string>("BillingAddressId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(max)");
@@ -42,8 +45,8 @@ namespace OrderService.DataAccess.SQL.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OrderStatus")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<short>("OrderStatus")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("PaymentId")
                         .HasColumnType("nvarchar(max)");
@@ -51,42 +54,55 @@ namespace OrderService.DataAccess.SQL.Migrations
                     b.Property<string>("PromotionId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("OrderId");
+                    b.Property<string>("ReceipentAddressId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Order");
 
                     b.HasData(
                         new
                         {
-                            OrderId = new Guid("3a91c648-9026-47fd-96fd-a5d95c93b6b6"),
-                            AddressId = "New Address",
-                            CustomerId = "7121c0df-29a2-4d3f-be86-1dc9df3b39ec",
+                            Id = new Guid("4d4b8bcc-66d1-42b2-a0fa-dde8ba2c9d8e"),
+                            BillingAddressId = "New Address",
+                            CreatedAt = new DateTime(2021, 2, 17, 17, 33, 29, 376, DateTimeKind.Local).AddTicks(2297),
+                            CustomerId = "f9d7cd3b-bd1d-4b0c-9eda-081b59335c97",
                             InvoiceNumber = "#12345",
-                            ModifiedDate = new DateTime(2021, 1, 20, 20, 55, 12, 464, DateTimeKind.Local).AddTicks(1550),
-                            OrderDate = new DateTime(2021, 1, 20, 20, 55, 12, 467, DateTimeKind.Local).AddTicks(2142),
-                            OrderStatus = "Confirmed",
-                            PaymentId = "b98bc5ab-9e76-410b-8736-b6ef0993048a",
-                            PromotionId = "#1qaz2wsx"
+                            ModifiedDate = new DateTime(2021, 2, 17, 17, 33, 29, 377, DateTimeKind.Local).AddTicks(2359),
+                            OrderDate = new DateTime(2021, 2, 17, 17, 33, 29, 377, DateTimeKind.Local).AddTicks(2856),
+                            OrderStatus = (short)0,
+                            PaymentId = "eb3a097c-d677-4f76-9dcc-265e7cf7baaa",
+                            PromotionId = "#1qaz2wsx",
+                            ReceipentAddressId = "New Address"
                         },
                         new
                         {
-                            OrderId = new Guid("82d25416-6e9e-4463-8f1a-d94187754787"),
-                            AddressId = "Old Address",
-                            CustomerId = "59371016-2302-4790-ba7d-6f0339343907",
+                            Id = new Guid("7668eea2-23b7-481b-bae4-b35b62b8cab2"),
+                            BillingAddressId = "Old Address",
+                            CreatedAt = new DateTime(2021, 2, 17, 17, 33, 29, 377, DateTimeKind.Local).AddTicks(5130),
+                            CustomerId = "36192d7f-0987-4db5-a47f-240bfb80f5de",
                             InvoiceNumber = "#4567",
-                            ModifiedDate = new DateTime(2021, 1, 20, 20, 55, 12, 467, DateTimeKind.Local).AddTicks(5077),
-                            OrderDate = new DateTime(2021, 1, 20, 20, 55, 12, 467, DateTimeKind.Local).AddTicks(5103),
-                            OrderStatus = "Awaiting",
-                            PaymentId = "a0baf6ec-63ee-4c88-8d6f-057ba4b456aa",
-                            PromotionId = "#3edc$RFV"
+                            ModifiedDate = new DateTime(2021, 2, 17, 17, 33, 29, 377, DateTimeKind.Local).AddTicks(5182),
+                            OrderDate = new DateTime(2021, 2, 17, 17, 33, 29, 377, DateTimeKind.Local).AddTicks(5192),
+                            OrderStatus = (short)1,
+                            PaymentId = "9a9367ab-db44-4953-800e-fea964f2f52f",
+                            PromotionId = "#3edc$RFV",
+                            ReceipentAddressId = "Old Address"
                         });
                 });
 
             modelBuilder.Entity("OrderService.Shared.Model.ProductOrderDetail", b =>
                 {
-                    b.Property<Guid>("ProductOrderDetailID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(max)");
@@ -103,7 +119,7 @@ namespace OrderService.DataAccess.SQL.Migrations
                     b.Property<decimal>("Tax")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("ProductOrderDetailID");
+                    b.HasKey("Id");
 
                     b.ToTable("ProductOrderDetail");
                 });

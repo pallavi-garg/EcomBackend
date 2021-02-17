@@ -60,7 +60,8 @@ namespace OrderService.BusinessLogic
             orderDetails.Id = orderId;
             orderDetails.OrderDate = DateTime.Now;
             orderDetails.PaymentId = inputData.PaymentId;
-            orderDetails.AddressId = inputData.AddressId;
+            orderDetails.BillingAddressId = inputData.BillingAddressId;
+            orderDetails.ReceipentAddressId = inputData.ReceipentAddressId;
             orderDetails.CustomerId = inputData.CustomerId;
 
             foreach(var product in inputData.Products)
