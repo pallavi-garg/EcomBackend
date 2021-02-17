@@ -7,7 +7,9 @@ namespace CartService.BusinessLogic.Interface
 {
     public interface ICartInfoProvider
     {
-        CartDetails GetCartDetails(string customerId);
+        CartDetails GetCartDetails(string id);
+
+        CartDetails GetCartDetailsByCustomerId(string customerId);
 
         void UpdateCartDetail(CartDetails inputData);
 
