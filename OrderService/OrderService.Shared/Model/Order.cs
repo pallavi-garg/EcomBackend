@@ -9,6 +9,7 @@ namespace OrderService.Shared.Model
         public string BillingAddressId { get; set; }
         public string ReceipentAddressId { get; set; }
         public string CustomerId { get; set; }
+        public string InvoiceNumber { get; set; }
         public List<ProductDetail> Products { get; set; }
     }
 }

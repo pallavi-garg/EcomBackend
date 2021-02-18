@@ -38,10 +38,10 @@ namespace OrderService.API.Controllers
             _orderProvider.UpdateOrderDetail(inputData);
         }
 
-        [HttpPost("AddNew")]
-        public void AddNewOrder([FromBody] Order inputData)
+        [HttpPost("add")]
+        public Order AddNewOrder([FromBody] Order inputData)
         {
-            _orderProvider.AddNewOrder(inputData);
+            return _orderProvider.AddNewOrder(inputData);
         }
 
         [HttpDelete("{Id}")]
