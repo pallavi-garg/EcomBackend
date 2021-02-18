@@ -34,13 +34,25 @@ namespace ProductService.BusinessLogic
             return _baseDataAccessBridge.GetProductByName(name);
         }
 
-        public List<ProductModel> SearchProduct(List<SearchDTO> searchDetails)
+        public SearchResult<ProductModel> GetProductByDepartment(string department, string continuationToken)
         {
-            string query = "Select * from c where ";
+            SearchResult<ProductModel> searchResult = new SearchResult<ProductModel>();
+            string query = $"Select * from c where c.Department = '{department.ToLower()}'";
+
+            searchResult = _baseDataAccessBridge.SearchProduct(query, continuationToken);
+
+            query = $"Select count(1) from c where c.Department = '{department.ToLower()}'";
+
+            searchResult.TotalCount = _baseDataAccessBridge.GetProductCount(query);
+
+            return searchResult;
+        }
+
+        public SearchResult<ProductModel> SearchProduct(List<string> searchDetails, string continuationToken)
+        {
+            string query = $"Select * from c where c.Department in ({string.Join(",", searchDetails.Select(value => $"'{value.ToLower()}'"))}) or " +
+                $"c.SuperCategory in ({string.Join(",", searchDetails.Select(value => $"'{value.ToLower()}'"))}) or ";
             
-            foreach(var item in searchDetails)
-            {
-                query = $"{query} c.Features.{item.Key} in ({string.Join(",", item.Value.Select(value => $"'{value}'"))})";
                 if(searchDetails.Last() != item)
                 {
                     query = $"{query} and";
