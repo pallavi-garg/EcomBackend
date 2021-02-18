@@ -36,6 +36,12 @@
             return entities.ToList();
         }
 
+        public List<T> GetByCustomertId(string customertId)
+        {
+            var entitities = entities.OfType<Cart>().Where(s => s.CustomerId.ToString() == customertId);
+            return entities.ToList();
+        }
+
         public void Insert(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");

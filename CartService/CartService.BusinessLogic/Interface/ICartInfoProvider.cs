@@ -15,7 +15,7 @@ namespace CartService.BusinessLogic.Interface
 
         void UpdateCartDetail(CartDetails inputData);
 
-        void AddNewItemInCart(CartDetails inputData);
+        CartDetails AddNewItemInCart(CartDetails inputData);
 
         void DeleteItemFromCart(string productId);
 
