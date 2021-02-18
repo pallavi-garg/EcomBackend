@@ -53,7 +53,7 @@ namespace OrderService.BusinessLogic
             //    _productDetailRepo.Insert(item);
             //});
 
-            MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(productOrderDetails)).Wait();
+            //MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(productOrderDetails)).Wait();
 
             return inputData;
         }
