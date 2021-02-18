@@ -50,39 +50,46 @@ namespace CartService.BusinessLogic
             {
                 cartDetails = GetCartDetails(cartData.CartId).Result;
             }
-            
+
             return cartDetails;
         }
 
         public async Task<CartDetails> GetCartDetails(string cartId)
         {
+            return GetCartDetails(cartId, true);
+        }
 
+        private CartDetails GetCartDetails(string cartId, bool fetchProducts)
+        {
             CartDetails cartDetails = new CartDetails();
             var cartProductMappingData = _cartProductMappingRepo.GetByCartId(cartId);
             var cartData = _cartRepo.GetByCartId(cartId).FirstOrDefault();
             if (cartProductMappingData != null && cartProductMappingData.Count > 0 && cartData != null)
             {
                 List<ShortProductDetails> productList = new List<ShortProductDetails>();
-                Parallel.ForEach(cartProductMappingData, (entry) =>
+                if (fetchProducts)
                 {
-                    var serviceEnpoint = $"{_appsettings.ProductServiceEndpoint}/{entry.ProductId}/sku/{entry.SKU}";
-                    var result = _httpCalls.GetClient<string, ProductModel>(entry.ProductId, new Uri(serviceEnpoint, UriKind.Absolute));
-
-                    if (result.Result != null)
+                    Parallel.ForEach(cartProductMappingData, (entry) =>
                     {
-                        var shortProductDeails = new ShortProductDetails
+                        var serviceEnpoint = $"{_appsettings.ProductServiceEndpoint}/{entry.ProductId}/sku/{entry.SKU}";
+                        var result = _httpCalls.GetClient<string, ProductModel>(entry.ProductId, new Uri(serviceEnpoint, UriKind.Absolute));
+
+                        if (result.Result != null)
                         {
-                            ProductId = result.Result.Id.ToString(),
-                            Quantity = entry.Quantity,
-                            Sku = result.Result.Sku,
-                            Features = result.Result.Features,
-                            Media = result.Result.Media,
-                            Price = result.Result.Price,
-                            ShortDescription = result.Result.ShortDescription
-                        };
-                        productList.Add(shortProductDeails);
-                    }
-                });
+                            var shortProductDeails = new ShortProductDetails
+                            {
+                                ProductId = result.Result.Id.ToString(),
+                                Quantity = entry.Quantity,
+                                Sku = result.Result.Sku,
+                                Features = result.Result.Features,
+                                Media = result.Result.Media,
+                                Price = result.Result.Price,
+                                ShortDescription = result.Result.ShortDescription
+                            };
+                            productList.Add(shortProductDeails);
+                        }
+                    });
+                }
                 cartDetails = new CartDetails
                 {
                     CartId = cartData.CartId.ToString(),
@@ -166,9 +173,17 @@ namespace CartService.BusinessLogic
             return cart;
         }
 
-        public IEnumerable<CartProductMapping> GetAllCartItems()
+        public IEnumerable<CartDetails> GetAllCartItems()
         {
-            return _cartProductMappingRepo.GetAll();
+            List<CartDetails> cartDetails = new List<CartDetails>();
+
+            foreach (var data in _cartRepo.GetAll())
+            {
+                cartDetails.Add(GetCartDetails(data.Id.ToString(), false));
+            }
+
+            return cartDetails;
         }
     }
 }
+

@@ -11,6 +11,8 @@ using OrderService.BusinessLogic.Interface;
 using OrderService.BusinessLogic;
 using System;
 using System.Linq;
+using OrderService.DataAccess.WebClient;
+using OrderService.Shared.Model;
 
 namespace OrderService.API
 {
@@ -38,6 +40,8 @@ namespace OrderService.API
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IOrderProvider, OrderProvider>();
             //services.AddAuthentication();
+            services.AddSingleton<HttpCalls>();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

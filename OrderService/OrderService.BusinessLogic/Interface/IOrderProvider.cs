@@ -1,18 +1,21 @@
-﻿using OrderService.Shared.Model;
+﻿using OrderService.DataAccess.SQL;
+using OrderService.Shared.Model;
 using System.Collections.Generic;
 
 namespace OrderService.BusinessLogic.Interface
 {
     public interface IOrderProvider
     {
-        IEnumerable<OrderDetails> GetAllOrders();
+        IEnumerable<Order> GetAllOrders();
 
-        OrderDetails GetOrderById(string id);
+        Order GetOrderById(string id);
 
-        void UpdateOrderDetail(OrderDetails inputData);
+        void UpdateOrderDetail(Order inputData);
 
         Order AddNewOrder(Order inputData);
 
         void DeleteOrderById(string orderId);
+        
+        Order GetOrderByCustomerId(string id);
     }
 }

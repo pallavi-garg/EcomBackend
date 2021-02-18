@@ -3,11 +3,9 @@
     using Microsoft.EntityFrameworkCore;
     using OrderService.DataAccess.SQL;
     using OrderService.DataAccess.SQL.Interfaces;
-    using OrderService.Shared.Model;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
 
     /// <summary>
     /// Provide database interaction in form of entities and functionality to save changes to database.
@@ -68,6 +66,18 @@
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public List<T> GetOrderByCustomerId(string customertId)
+        {
+            var orderDetails = entities.OfType<OrderDetails>().Where(s => s.CustomerId == customertId);
+            return orderDetails.OfType<T>().ToList();
+        }
+
+        public IEnumerable<T> GetProductByOrderId(string orderId)
+        {
+            var orderDetails = entities.OfType<ProductOrderDetail>().Where(s => s.OrderId == orderId);
+            return orderDetails.OfType<T>();
         }
     }
 }

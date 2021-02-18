@@ -1,10 +1,8 @@
 ﻿using CartService.BusinessLogic.Interface;
-using CartService.DataAccess.SQL;
 using CartService.Shared.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CartService.Controllers
 {
@@ -89,7 +87,7 @@ namespace CartService.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<CartProductMapping> GetAllCarts()
+        public IEnumerable<CartDetails> GetAllCarts()
         {
             return _cartProvider.GetAllCartItems();
         }

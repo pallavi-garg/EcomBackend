@@ -20,6 +20,6 @@ namespace CartService.BusinessLogic.Interface
         void DeleteItemFromCart(string productId);
 
         void ResetCart(string customerId);
-        IEnumerable<CartProductMapping> GetAllCartItems();
+        IEnumerable<CartDetails> GetAllCartItems();
     }
 }
