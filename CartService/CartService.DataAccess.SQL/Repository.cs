@@ -31,9 +31,8 @@
 
         public List<T> GetByCartId(string cartId)
         {
-            var entitities = entities.Where(s => s.CartId.ToString() == cartId);
-
-            return entities.ToList();
+            var entitities = entities.Where(s => s.CartId == cartId);
+            return entitities.ToList();
         }
 
         public List<T> GetByCustomertId(string customertId)
