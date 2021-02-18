@@ -28,11 +28,6 @@ namespace ProductService.DataAccess
             return readService.GetAllItems<ProductModel>(continuationToken);
         }
 
-        public ProductModel GetProductById(string id)
-        {
-            return readService.GetItemById<ProductModel>(id);
-        }
-
         public ProductModel GetProductByName(string name)
         {
             return new ProductModel();

@@ -7,8 +7,6 @@ namespace ProductService.DataAccess
     {
         SearchResult<ProductModel> GetAllProducts(string continuationToken);
 
-        ProductModel GetProductById(string id);
-
         ProductModel GetProductByName(string name);
 
 
