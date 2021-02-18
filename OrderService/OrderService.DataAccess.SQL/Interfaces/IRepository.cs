@@ -5,18 +5,14 @@ using System.Text;
 
 namespace OrderService.DataAccess.SQL.Interfaces
 {
-    public interface IRepository
+    public interface IRepository<T> where T : BaseEntity
     {
-        IEnumerable<OrderDetails> GetAll();
-
-        OrderDetails GetById(string OrderId);
-
-        void Insert(OrderDetails orderDetail, List<ProductOrderDetail> productOrderDetails);
-
-        void Update(OrderDetails orderDetails);
-
-        void Delete(string orderId);
-
-        void Save();       
+        IEnumerable<T> GetAll();
+        T GetById(string id);
+        T Insert(T entity);
+        void BulkInsert(List<T> entities);
+        void Update(T entity);
+        void Delete(string id);
+        void Save();
     }
 }

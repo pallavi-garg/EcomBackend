@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using OrderService.DataAccess.SQL;
+using System;
 
 namespace OrderService.Shared.Model
 {
-    public class OrderDetails
+    public class OrderDetails : BaseEntity
     {
-        [Key]
-        public Guid OrderId { get; set; }
         public string InvoiceNumber { get; set; }
-        public string OrderStatus { get; set; }
+        public short OrderStatus { get; set; }
         public DateTime OrderDate { get; set; }
         public string PromotionId { get; set; }
         public string PaymentId { get; set; }
-        public string AddressId { get; set; }
+        public string BillingAddressId { get; set; }
+        public string ReceipentAddressId { get; set; }
         public string CustomerId { get; set; }
-        public DateTime ModifiedDate { get; set; }
+
+
+        // Order Status 0 - Payment Pending, 1 = Payment Done, 2 = Shipped,3 = Order completed, 4= Cancelled, 5= Returned
     }
 }

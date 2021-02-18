@@ -4,9 +4,9 @@ using System;
 
 namespace OrderService.DataAccess.SQL
 {
-    public class OrderContext: DbContext
+    public class DBContext: DbContext
     {
-        public OrderContext(DbContextOptions opts): base(opts)
+        public DBContext(DbContextOptions opts): base(opts)
         {
 
         }
@@ -18,25 +18,27 @@ namespace OrderService.DataAccess.SQL
         {
             modelBuilder.Entity<OrderDetails>().HasData(new OrderDetails
             {
-                AddressId = "New Address",
+                BillingAddressId = "New Address",
+                ReceipentAddressId = "New Address",
                 CustomerId = Guid.NewGuid().ToString(),
                 InvoiceNumber = "#12345",
                 ModifiedDate = DateTime.Now,
                 OrderDate = DateTime.Now,
-                OrderId = Guid.NewGuid(),
-                OrderStatus = "Confirmed",
+                Id = Guid.NewGuid(),
+                OrderStatus = 0,
                 PaymentId = Guid.NewGuid().ToString(),
                 PromotionId = "#1qaz2wsx"
 
             }, new OrderDetails
             {
-                AddressId = "Old Address",
+                BillingAddressId = "Old Address",
+                ReceipentAddressId = "Old Address",
                 CustomerId = Guid.NewGuid().ToString(),
                 InvoiceNumber = "#4567",
                 ModifiedDate = DateTime.Now,
                 OrderDate = DateTime.Now,
-                OrderId = Guid.NewGuid(),
-                OrderStatus = "Awaiting",
+                Id = Guid.NewGuid(),
+                OrderStatus = 1,
                 PaymentId = Guid.NewGuid().ToString(),
                 PromotionId = "#3edc$RFV"
             });

@@ -1,9 +1,7 @@
-﻿namespace OrderService.DataAccess
+﻿namespace CartService.DataAccess.SQL
 {
+    using CartService.DataAccess.SQL.Interfaces;
     using Microsoft.EntityFrameworkCore;
-    using OrderService.DataAccess.SQL;
-    using OrderService.DataAccess.SQL.Interfaces;
-    using OrderService.Shared.Model;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -28,24 +26,22 @@
         }
         public T GetById(string id)
         {
-            return entities.SingleOrDefault(s => s.Id.ToString() == id);
+            return entities.FirstOrDefault(s => s.Id.ToString() == id);
         }
-        public T Insert(T entity)
+
+        public List<T> GetByCartId(string cartId)
+        {
+            var entitities = entities.Where(s => s.CartId.ToString() == cartId);
+
+            return entities.ToList();
+        }
+
+        public void Insert(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
 
-            var  addedEntry = entities.Add(entity);
+            entities.Add(entity);
             Save();
-            return addedEntry.Entity;
-        }
-
-        public void BulkInsert(List<T> entities)
-        {
-            if (entities == null) throw new ArgumentNullException("entity");
-          
-            this.entities.AddRange(entities);
-            Save();
-            
         }
         public void Update(T entity)
         {
@@ -58,16 +54,30 @@
             if (id == null) throw new ArgumentNullException("entity");
 
             T entity = entities.FirstOrDefault(s => s.Id.ToString() == id);
-            if(entity != null)
+            if (entity != null)
             {
 
                 entities.Remove(entity);
                 Save();
             }
         }
+
+
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public void DeleteByCartId(string cartId)
+        {
+            if (cartId == null) throw new ArgumentNullException("entity");
+
+            T entity = entities.FirstOrDefault(s => s.CartId.ToString() == cartId);
+            if (entity != null)
+            {
+                entities.Remove(entity);
+                Save();
+            }
         }
     }
 }
