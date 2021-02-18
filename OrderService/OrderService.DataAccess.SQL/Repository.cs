@@ -30,12 +30,22 @@
         {
             return entities.SingleOrDefault(s => s.Id.ToString() == id);
         }
-        public void Insert(T entity)
+        public T Insert(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
 
-            entities.Add(entity);
+            var  addedEntry = entities.Add(entity);
             Save();
+            return addedEntry.Entity;
+        }
+
+        public void BulkInsert(List<T> entities)
+        {
+            if (entities == null) throw new ArgumentNullException("entity");
+          
+            this.entities.AddRange(entities);
+            Save();
+            
         }
         public void Update(T entity)
         {
