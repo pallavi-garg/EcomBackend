@@ -1,4 +1,6 @@
-﻿namespace CartService.Shared.Model
+﻿using System.Collections.Generic;
+
+namespace CartService.Shared.Model
 {
     public class ShortProductDetails
     {
@@ -10,7 +12,7 @@
 
         public ImageDetail[] Media { get; set; }
 
-        public FeatureDetail[] Features { get; set; }
+        public Dictionary<string, string> Features { get; set; }
 
         public string Price { get; set; }
 

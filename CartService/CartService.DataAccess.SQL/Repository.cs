@@ -38,8 +38,8 @@
 
         public List<T> GetByCustomertId(string customertId)
         {
-            var entitities = entities.OfType<Cart>().Where(s => s.CustomerId.ToString() == customertId);
-            return entities.ToList();
+            var entitities = entities.OfType<Cart>().Where(s => s.CustomerId == customertId);
+            return entitities.OfType<T>().ToList();
         }
 
         public void Insert(T entity)

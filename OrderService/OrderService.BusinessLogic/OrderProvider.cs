@@ -23,6 +23,8 @@ namespace OrderService.BusinessLogic
         {
             _repo = repo;
             _productDetailRepo = productDetailRepo;
+            _httpCalls = httpCalls;
+            _appsettings = appSettings?.Value;
         }
 
         public void DeleteOrderById(string orderId)
@@ -136,7 +138,7 @@ namespace OrderService.BusinessLogic
                         {
                             var shortProductDeails = new ShortProductDetails
                             {
-                                ProductId = result.Result.Id.ToString(),
+                                ProductId = result.Result.ProductId,
                                 Quantity = entry.Quantity,
                                 Sku = result.Result.Sku,
                                 Features = result.Result.Features,

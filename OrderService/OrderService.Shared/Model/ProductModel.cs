@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 
 namespace OrderService.Shared.Model
 {
@@ -42,9 +43,9 @@ namespace OrderService.Shared.Model
         
         
         public ImageDetail[] Media { get; set; }
-        
-        
-        public FeatureDetail[] Features { get; set; }
+
+
+        public Dictionary<string, string> Features { get; set; }
     }
 
 }
