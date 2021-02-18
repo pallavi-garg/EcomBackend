@@ -26,8 +26,22 @@
         }
         public T GetById(string id)
         {
-            return entities.SingleOrDefault(s => s.Id.ToString() == id);
+            return entities.FirstOrDefault(s => s.Id.ToString() == id);
         }
+
+        public List<T> GetByCartId(string cartId)
+        {
+            var entitities = entities.Where(s => s.CartId.ToString() == cartId);
+
+            return entities.ToList();
+        }
+
+        public List<T> GetByCustomertId(string customertId)
+        {
+            var entitities = entities.OfType<Cart>().Where(s => s.CustomerId.ToString() == customertId);
+            return entities.ToList();
+        }
+
         public void Insert(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
@@ -54,9 +68,22 @@
             }
         }
 
+
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public void DeleteByCartId(string cartId)
+        {
+            if (cartId == null) throw new ArgumentNullException("entity");
+
+            T entity = entities.FirstOrDefault(s => s.CartId.ToString() == cartId);
+            if (entity != null)
+            {
+                entities.Remove(entity);
+                Save();
+            }
         }
     }
 }

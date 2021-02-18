@@ -25,6 +25,9 @@ namespace CartService.DataAccess.SQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CartId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -41,17 +44,17 @@ namespace CartService.DataAccess.SQL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("325c5ee8-ba74-47c5-9e4c-a8bd24a9b570"),
-                            CreatedAt = new DateTime(2021, 2, 14, 15, 21, 57, 806, DateTimeKind.Local).AddTicks(6476),
+                            Id = new Guid("523e5163-8640-47b0-b511-ff61b29effdc"),
+                            CreatedAt = new DateTime(2021, 2, 18, 13, 31, 4, 244, DateTimeKind.Local).AddTicks(2395),
                             CustomerId = "RAHULXXXX123",
-                            ModifiedDate = new DateTime(2021, 2, 14, 15, 21, 57, 806, DateTimeKind.Local).AddTicks(8462)
+                            ModifiedDate = new DateTime(2021, 2, 18, 13, 31, 4, 244, DateTimeKind.Local).AddTicks(4512)
                         },
                         new
                         {
-                            Id = new Guid("8fa73bc7-fe97-4c67-9ac3-2991958f6469"),
-                            CreatedAt = new DateTime(2021, 4, 5, 15, 21, 57, 806, DateTimeKind.Local).AddTicks(9027),
+                            Id = new Guid("65c941a5-af82-42bb-80dd-c81a5a73c0b5"),
+                            CreatedAt = new DateTime(2021, 4, 9, 13, 31, 4, 244, DateTimeKind.Local).AddTicks(5076),
                             CustomerId = "RAHULXXXX123",
-                            ModifiedDate = new DateTime(2021, 4, 5, 15, 21, 57, 806, DateTimeKind.Local).AddTicks(9075)
+                            ModifiedDate = new DateTime(2021, 4, 9, 13, 31, 4, 244, DateTimeKind.Local).AddTicks(5125)
                         });
                 });
 
@@ -73,12 +76,37 @@ namespace CartService.DataAccess.SQL.Migrations
                     b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<string>("SKU")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("CartProductMapping");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("12f9d48c-d899-4db7-a229-cbe823695ca0"),
+                            CartId = "8FA73BC7-FE97-4C67-9AC3-2991958F6469",
+                            CreatedAt = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(30),
+                            ModifiedDate = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(42),
+                            ProductId = "XYZ_12345",
+                            Quantity = 2,
+                            SKU = "ADCSKKK_SSW#$%&**SS^&*()"
+                        },
+                        new
+                        {
+                            Id = new Guid("77cfb577-59a4-4a89-a9f0-bef5a6f9efb9"),
+                            CartId = "325C5EE8-BA74-47C5-9E4C-A8BD24A9B570",
+                            CreatedAt = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(1704),
+                            ModifiedDate = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(1708),
+                            ProductId = "ABCD_XXXX",
+                            Quantity = 2,
+                            SKU = "ADCSKKK_SSWqweeqweqweqwe"
+                        });
                 });
 #pragma warning restore 612, 618
         }

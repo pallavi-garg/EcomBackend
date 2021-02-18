@@ -6,8 +6,10 @@ namespace OrderService.Shared.Model
     {
         public string PromotionId { get; set; }
         public string PaymentId { get; set; }
-        public string AddressId { get; set; }
+        public string BillingAddressId { get; set; }
+        public string ReceipentAddressId { get; set; }
         public string CustomerId { get; set; }
+        public string InvoiceNumber { get; set; }
         public List<ProductDetail> Products { get; set; }
     }
 }

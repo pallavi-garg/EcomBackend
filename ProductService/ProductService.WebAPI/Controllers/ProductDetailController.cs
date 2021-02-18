@@ -2,6 +2,7 @@
 using ProductService.BusinessLogic;
 using ProductService.Shared;
 using System.Collections.Generic;
+using System.Web;
 
 // TODO restrict methods lie add update delete
 namespace ProductService.WebAPI.Controllers
@@ -17,9 +18,9 @@ namespace ProductService.WebAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ProductModel> GetAllProductList()
+        public SearchResult<ProductModel> GetAllProductList(string continuationToken)
         {
-            return _productDetailProvider.GetAllProducts();
+            return _productDetailProvider.GetAllProducts(continuationToken);
         }
 
         [HttpGet("{id}")]
@@ -35,9 +36,15 @@ namespace ProductService.WebAPI.Controllers
         }
 
         [HttpGet("search")]
-        public ActionResult<List<ProductModel>> SearchProduct(List<SearchDTO> searchDetails)
+        public ActionResult<SearchResult<ProductModel>> SearchProduct(List<SearchDTO> searchDetails, [FromHeader] string continuationToken)
         {
-            return _productDetailProvider.SearchProduct(searchDetails);
+            return _productDetailProvider.SearchProduct(searchDetails, continuationToken);
+        }
+
+        [HttpGet("department/{departmentId}")]
+        public ActionResult<SearchResult<ProductModel>> SearchProductByDepartment(string departmentId, [FromHeader] string continuationToken)
+        {
+            return _productDetailProvider.GetProductByDepartment(departmentId, continuationToken);
         }
 
         [HttpPut("{id}")]

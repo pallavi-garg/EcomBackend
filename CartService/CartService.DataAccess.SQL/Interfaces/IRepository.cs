@@ -10,5 +10,8 @@ namespace CartService.DataAccess.SQL.Interfaces
         void Update(T entity);
         void Delete(string id);
         void Save();
+        List<T> GetByCartId(string cartId);
+        List<T> GetByCustomertId(string customerId);
+        void DeleteByCartId(string cartId);
     }
 }

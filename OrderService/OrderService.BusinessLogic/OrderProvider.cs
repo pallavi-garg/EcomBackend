@@ -38,43 +38,51 @@ namespace OrderService.BusinessLogic
             _repo.Update(inputData);
         }
 
-        public string AddNewOrder(Order inputData)
+        public Order AddNewOrder(Order inputData)
         {
             Guid orderId = new Guid();
             OrderDetails orderDetails = new OrderDetails();
             List<ProductOrderDetail> productOrderDetails = new List<ProductOrderDetail>();
             FillOrderAndProductDetails(inputData, orderId, ref orderDetails, ref productOrderDetails);
-            _repo.Insert(orderDetails);
-            productOrderDetails.ForEach(item =>
-            {
-                _productDetailRepo.Insert(item);
-            });
+            OrderDetails orderedEntered =_repo.Insert(orderDetails);
+            _productDetailRepo.BulkInsert(productOrderDetails);
 
-            MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(productOrderDetails)).Wait();
+            inputData.InvoiceNumber = orderDetails.InvoiceNumber;
+            //productOrderDetails.ForEach(item =>
+            //{
+            //    _productDetailRepo.Insert(item);
+            //});
 
-            return orderId.ToString();
+            //MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(productOrderDetails)).Wait();
+
+            return inputData;
         }
 
         private void FillOrderAndProductDetails(Order inputData, Guid orderId, ref OrderDetails orderDetails, ref List<ProductOrderDetail> productOrderDetails)
         {
-            orderDetails.Id = orderId;
+            orderDetails.Id = Guid.NewGuid();
             orderDetails.OrderDate = DateTime.Now;
-            orderDetails.PaymentId = inputData.PaymentId;
-            orderDetails.AddressId = inputData.AddressId;
+            orderDetails.PaymentId = Guid.NewGuid().ToString();
+            orderDetails.BillingAddressId = inputData.BillingAddressId;
+            orderDetails.ReceipentAddressId = inputData.ReceipentAddressId;
             orderDetails.CustomerId = inputData.CustomerId;
+            orderDetails.InvoiceNumber = Guid.NewGuid().ToString();
+            orderDetails.OrderStatus = 0;
 
             foreach(var product in inputData.Products)
             {
                 productOrderDetails.Add(new ProductOrderDetail()
                 {
                     OrderId = orderId.ToString(),
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
                     ProductId = product.ProductId,
+                    Quantity = product.Quantity,
                     ProductPurchasePrice = product.ProductPurchasePrice,
                     SKU = product.SKU
                 });
             }
             
         }
+
     }
 }

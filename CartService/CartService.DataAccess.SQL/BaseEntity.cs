@@ -10,5 +10,6 @@ namespace CartService.DataAccess.SQL
         public Guid Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime ModifiedDate { get; set; } = DateTime.Now;
+        public string CartId { get; set; } = null;
     }
 }

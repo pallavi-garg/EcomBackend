@@ -9,7 +9,8 @@ namespace OrderService.DataAccess.SQL.Interfaces
     {
         IEnumerable<T> GetAll();
         T GetById(string id);
-        void Insert(T entity);
+        T Insert(T entity);
+        void BulkInsert(List<T> entities);
         void Update(T entity);
         void Delete(string id);
         void Save();

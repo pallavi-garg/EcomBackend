@@ -11,7 +11,7 @@ namespace OrderService.BusinessLogic.Interface
 
         void UpdateOrderDetail(OrderDetails inputData);
 
-        string AddNewOrder(Order inputData);
+        Order AddNewOrder(Order inputData);
 
         void DeleteOrderById(string orderId);
     }

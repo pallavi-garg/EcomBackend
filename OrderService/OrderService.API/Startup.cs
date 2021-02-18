@@ -9,11 +9,15 @@ using OrderService.DataAccess.SQL.Interfaces;
 using OrderService.DataAccess;
 using OrderService.BusinessLogic.Interface;
 using OrderService.BusinessLogic;
+using System;
+using System.Linq;
 
 namespace OrderService.API
 {
     public class Startup
     {
+        private const string AllowedOriginsKey = "AllowedOrigins";
+        private string[] allowedOrigins = null;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,6 +28,8 @@ namespace OrderService.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            RegisterCors(services);
+
             services.AddControllers();
             services.AddDbContextPool<DBContext>(options =>
             {
@@ -46,12 +52,44 @@ namespace OrderService.API
 
             app.UseRouting();
 
+            UseCors(app);
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        /// <summary>
+        /// Register CORS with middleware.
+        /// </summary>
+        /// <param name="services"></param>
+        private void RegisterCors(IServiceCollection services)
+        {
+            string allowedHostsConfigValue = Configuration[AllowedOriginsKey];
+            allowedOrigins = (string.IsNullOrWhiteSpace(allowedHostsConfigValue)) ? null :
+                                allowedHostsConfigValue.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(origin => origin.Trim()).ToArray();
+
+            // Register CORS only if any hosts are provided
+            if (allowedOrigins != null && allowedOrigins.Any())
+            {
+                services.AddCors();
+            }
+        }
+
+        /// <summary>
+        /// Add origins which are allowed to call this service.
+        /// </summary>
+        /// <param name="app"></param>
+        private void UseCors(IApplicationBuilder app)
+        {
+            // Enable CORS for specified hosts only
+            if (allowedOrigins != null && allowedOrigins.Any())
+            {
+                app.UseCors(options => options.WithOrigins(allowedOrigins).WithMethods("GET", "POST", "PUT").WithHeaders("*"));
+            }
         }
     }
 }

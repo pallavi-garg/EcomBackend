@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ProductService.DataAccess
 {
-    public interface IBaseDataAccessBridge: IProductDetailDataAccessBridge
+    public interface IBaseDataAccessBridge: IProductDetailDataAccessBridge, ICategoryDataAccessBridge
     {
         void SaveChanges();
     }
