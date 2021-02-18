@@ -34,7 +34,10 @@ namespace ProductService.Shared
         
         [DataMember]
         public string Sku { get; set; }
-        
+
+        [DataMember]
+        public int Quantity { get; set; }
+
         [DataMember]
         public string Price { get; set; }
         
@@ -49,9 +52,6 @@ namespace ProductService.Shared
         
         [DataMember]
         public Dictionary<string,string> Features { get; set; }
-
-        [DataMember]
-        public uint Quantity { get; set; }
     }
 
 }

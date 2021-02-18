@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProductService.Shared\ProductService.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
