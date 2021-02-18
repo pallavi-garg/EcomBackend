@@ -24,9 +24,11 @@ namespace ProductService.BusinessLogic
             return _baseDataAccessBridge.GetAllProducts(continuationToken);
         }
 
-        public ProductModel GetProductById(string id)
+        public ProductModel GetProductById(string id, string skuId)
         {
-            return _baseDataAccessBridge.GetProductById(id);
+            string query = $"Select * from c where c.ProductId = '{id}' and c.Sku = '{skuId}'";
+
+            return _baseDataAccessBridge.SearchProduct(query, null).Data.FirstOrDefault();
         }
 
         public ProductModel GetProductByName(string name)

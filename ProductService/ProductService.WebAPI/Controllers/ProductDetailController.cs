@@ -23,10 +23,10 @@ namespace ProductService.WebAPI.Controllers
             return _productDetailProvider.GetAllProducts(continuationToken);
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<ProductModel> GetProductById(string id)
+        [HttpGet("{id}/sku/{skuId}")]
+        public ActionResult<ProductModel> GetProductById(string id, string skuId)
         {
-            return _productDetailProvider.GetProductById(id);
+            return _productDetailProvider.GetProductById(id, skuId);
         }
 
         [HttpGet("productName/{productName}")]

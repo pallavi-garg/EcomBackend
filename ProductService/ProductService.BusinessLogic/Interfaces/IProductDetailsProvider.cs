@@ -7,7 +7,7 @@ namespace ProductService.BusinessLogic
     {
         SearchResult<ProductModel> GetAllProducts(string continuationToken);
 
-        ProductModel GetProductById(string id);
+        ProductModel GetProductById(string id, string skuId);
      
         ProductModel GetProductByName(string name);
 
