@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProductService.BusinessLogic;
 using ProductService.Shared;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 // TODO restrict methods lie add update delete
 namespace ProductService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductDetailController : ControllerBase
     {
         IProductDetailsProvider _productDetailProvider;
@@ -15,10 +19,19 @@ namespace ProductService.WebAPI.Controllers
         {
             _productDetailProvider = productDetailProvider;
         }
-
+        [Authorize(Policy = "Admin")]
         [HttpGet]
         public IEnumerable<ProductModel> GetAllProductList()
         {
+
+            var a = HttpContext.User;
+            //foreach (var item in User.Claims)
+            //{
+            //    Console.WriteLine(item.Type+":"+item.Value);
+            //}
+             var userId = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value);
+            var role = User.Claims.FirstOrDefault(c => c.Type == "extension_Role")?.Value;
+
             return _productDetailProvider.GetAllProducts();
         }
 
@@ -40,6 +53,7 @@ namespace ProductService.WebAPI.Controllers
             return _productDetailProvider.SearchProduct(searchDetails);
         }
 
+        
         [HttpPut("{id}")]
         public bool UpdateProductDetail(string productId, [FromBody] ProductModel inputData)
         {
