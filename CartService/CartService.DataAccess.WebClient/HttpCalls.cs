@@ -49,9 +49,9 @@ namespace CartService.DataAccess.WebClient
             return await _client.SendAsync(requestMessage).ConfigureAwait(false);
         }
 
-        public async Task<TResponse> PostClient<TRequest, TResponse>(TRequest input, Uri uri)
+        public async Task<TResponse> GetClient<TRequest, TResponse>(TRequest input, Uri uri)
         {
-            (TResponse Response, HttpResponseMessage ResponseMessage) Result = await SendRequest<TRequest, TResponse>(HttpMethod.Post, uri, input).ConfigureAwait(false);
+            (TResponse Response, HttpResponseMessage ResponseMessage) Result = await SendRequest<TRequest, TResponse>(HttpMethod.Get, uri, input).ConfigureAwait(false);
             Result.ResponseMessage.EnsureSuccessStatusCode();
             return Result.Response;
         }

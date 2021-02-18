@@ -59,7 +59,8 @@ namespace CartService.BusinessLogic
                 List<ShortProductDetails> productList = new List<ShortProductDetails>();
                 Parallel.ForEach(cartProductMappingData, (entry) =>
                  {
-                     var result = _httpCalls.PostClient<string, ProductModel>(entry.ProductId, new Uri(_appsettings.ProductServiceEndpoint, UriKind.Absolute));
+                     var serviceEnpoint = $"{_appsettings.ProductServiceEndpoint}/{entry.ProductId}";
+                     var result = _httpCalls.GetClient<string, ProductModel>(entry.ProductId, new Uri(serviceEnpoint, UriKind.Absolute));
 
                      if (result.Result != null)
                      {
