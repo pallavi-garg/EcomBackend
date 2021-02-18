@@ -4,14 +4,16 @@ using CartService.DataAccess.SQL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CartService.DataAccess.SQL.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20210218110924_Update-db-schema")]
+    partial class Updatedbschema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,9 +26,6 @@ namespace CartService.DataAccess.SQL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CartId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -44,17 +43,17 @@ namespace CartService.DataAccess.SQL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("523e5163-8640-47b0-b511-ff61b29effdc"),
-                            CreatedAt = new DateTime(2021, 2, 18, 13, 31, 4, 244, DateTimeKind.Local).AddTicks(2395),
+                            Id = new Guid("56bf938d-f7a5-42fc-a9d8-6b6a9172ba7a"),
+                            CreatedAt = new DateTime(2021, 2, 18, 12, 9, 24, 490, DateTimeKind.Local).AddTicks(4610),
                             CustomerId = "RAHULXXXX123",
-                            ModifiedDate = new DateTime(2021, 2, 18, 13, 31, 4, 244, DateTimeKind.Local).AddTicks(4512)
+                            ModifiedDate = new DateTime(2021, 2, 18, 12, 9, 24, 490, DateTimeKind.Local).AddTicks(7301)
                         },
                         new
                         {
-                            Id = new Guid("65c941a5-af82-42bb-80dd-c81a5a73c0b5"),
-                            CreatedAt = new DateTime(2021, 4, 9, 13, 31, 4, 244, DateTimeKind.Local).AddTicks(5076),
+                            Id = new Guid("dd5cb491-0261-49a9-9171-32dff07b5c25"),
+                            CreatedAt = new DateTime(2021, 4, 9, 12, 9, 24, 490, DateTimeKind.Local).AddTicks(8134),
                             CustomerId = "RAHULXXXX123",
-                            ModifiedDate = new DateTime(2021, 4, 9, 13, 31, 4, 244, DateTimeKind.Local).AddTicks(5125)
+                            ModifiedDate = new DateTime(2021, 4, 9, 12, 9, 24, 490, DateTimeKind.Local).AddTicks(8207)
                         });
                 });
 
@@ -85,28 +84,6 @@ namespace CartService.DataAccess.SQL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CartProductMapping");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("12f9d48c-d899-4db7-a229-cbe823695ca0"),
-                            CartId = "8FA73BC7-FE97-4C67-9AC3-2991958F6469",
-                            CreatedAt = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(30),
-                            ModifiedDate = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(42),
-                            ProductId = "XYZ_12345",
-                            Quantity = 2,
-                            SKU = "ADCSKKK_SSW#$%&**SS^&*()"
-                        },
-                        new
-                        {
-                            Id = new Guid("77cfb577-59a4-4a89-a9f0-bef5a6f9efb9"),
-                            CartId = "325C5EE8-BA74-47C5-9E4C-A8BD24A9B570",
-                            CreatedAt = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(1704),
-                            ModifiedDate = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(1708),
-                            ProductId = "ABCD_XXXX",
-                            Quantity = 2,
-                            SKU = "ADCSKKK_SSWqweeqweqweqwe"
-                        });
                 });
 #pragma warning restore 612, 618
         }

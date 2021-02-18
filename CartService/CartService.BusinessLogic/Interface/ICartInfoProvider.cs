@@ -1,13 +1,15 @@
-﻿using CartService.Shared.Model;
+﻿using CartService.DataAccess.SQL;
+using CartService.Shared.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CartService.BusinessLogic.Interface
 {
     public interface ICartInfoProvider
     {
-        CartDetails GetCartDetails(string id);
+        Task<CartDetails> GetCartDetails(string cartId);
 
         CartDetails GetCartDetailsByCustomerId(string customerId);
 
@@ -18,5 +20,6 @@ namespace CartService.BusinessLogic.Interface
         void DeleteItemFromCart(string productId);
 
         void ResetCart(string customerId);
+        IEnumerable<CartProductMapping> GetAllCartItems();
     }
 }
