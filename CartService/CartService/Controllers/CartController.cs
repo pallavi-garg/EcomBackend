@@ -1,7 +1,10 @@
 ﻿using CartService.BusinessLogic.Interface;
+using CartService.DataAccess.SQL;
 using CartService.Shared.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CartService.Controllers
 {
@@ -20,9 +23,9 @@ namespace CartService.Controllers
         }
 
         [HttpGet("{customerId}")]
-        public ActionResult<CartDetails> GetCartDetails(string customerId)
+        public async Task<CartDetails> GetCartDetails(string customerId)
         {
-            return _cartProvider.GetCartDetails(customerId);
+            return await _cartProvider.GetCartDetails(customerId);
         }
 
         [HttpGet("customerId/{customerId}")]
@@ -47,6 +50,12 @@ namespace CartService.Controllers
         public void DeleteItemFromCart(string productId)
         {
             _cartProvider.DeleteItemFromCart(productId);
+        }
+
+        [HttpGet]
+        public IEnumerable<CartProductMapping> GetAllCarts()
+        {
+            return _cartProvider.GetAllCartItems();
         }
     }
 }

@@ -31,6 +31,29 @@ namespace CartService.DataAccess.SQL
 
             }) ;
 
+            modelBuilder.Entity<CartProductMapping>().HasData(new CartProductMapping
+            {
+                CartId = "8FA73BC7-FE97-4C67-9AC3-2991958F6469",
+                Id = Guid.NewGuid(),
+                CreatedAt = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                Quantity = 2,
+                ProductId = "XYZ_12345",
+                SKU = "ADCSKKK_SSW#$%&**SS^&*()"
+               
+            });
+            modelBuilder.Entity<CartProductMapping>().HasData(new CartProductMapping
+            {
+                CartId = "325C5EE8-BA74-47C5-9E4C-A8BD24A9B570",
+                Id = Guid.NewGuid(),
+                CreatedAt = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                Quantity = 2,
+                ProductId = "ABCD_XXXX",
+                SKU = "ADCSKKK_SSWqweeqweqweqwe"
+
+            });
+
         }
     }
 }

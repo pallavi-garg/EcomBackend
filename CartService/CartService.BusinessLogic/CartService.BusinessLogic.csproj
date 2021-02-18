@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CartService.DataAccess.SQL\CartService.DataAccess.SQL.csproj" />
+    <ProjectReference Include="..\CartService.DataAccess.WebClient\CartService.DataAccess.WebClient.csproj" />
     <ProjectReference Include="..\CartService.Shared\CartService.Shared.csproj" />
   </ItemGroup>
 

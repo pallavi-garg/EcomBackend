@@ -2,6 +2,8 @@ using CartService.BusinessLogic;
 using CartService.BusinessLogic.Interface;
 using CartService.DataAccess.SQL;
 using CartService.DataAccess.SQL.Interfaces;
+using CartService.DataAccess.WebClient;
+using CartService.Shared.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,8 @@ namespace CartService
             });
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<ICartInfoProvider, CartInfoProvider>();
+            services.AddSingleton<HttpCalls>();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
