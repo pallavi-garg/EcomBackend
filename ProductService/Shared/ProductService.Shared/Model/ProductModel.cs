@@ -50,8 +50,7 @@ namespace ProductService.Shared
         [DataMember]
         public ImageDetail[] Media { get; set; }
         
-        [DataMember]
-        public  
+        
     }
 
 }
