@@ -7,182 +7,271 @@ using CartService.Shared.Model;
 using CartService.DataAccess.WebClient;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace CartService.BusinessLogic
 {
     public class CartInfoProvider : ICartInfoProvider
     {
-        private readonly IRepository<Cart> _cartRepo;
-        private readonly IRepository<CartProductMapping> _cartProductMappingRepo;
         private readonly HttpCalls _httpCalls;
-        private readonly AppSettings _appsettings;
-        public CartInfoProvider(IRepository<Cart> cartRepo, IRepository<CartProductMapping> cartProductMappingRepo, HttpCalls httpCalls, IOptions<AppSettings> appSettings)
+        private readonly IConfiguration configuration;
+
+        private readonly HttpClient httpClient;
+        public CartInfoProvider(HttpCalls httpCalls, IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
-            _cartRepo = cartRepo;
-            _cartProductMappingRepo = cartProductMappingRepo;
+            httpClient = httpClientFactory.CreateClient();
             _httpCalls = httpCalls;
-            _appsettings = appSettings?.Value;
+            this.configuration = configuration;
         }
 
         public void DeleteItemFromCart(string cartId)
         {
-            _cartRepo.Delete(cartId);
-            _cartProductMappingRepo.DeleteByCartId(cartId);
+            using (var dBContext = new DBContext())
+            {
+                Cart cart = dBContext.Cart.FirstOrDefault(x => x.Id.ToString() == cartId);
+                if (cart != null)
+                {
+                    dBContext.Cart.Remove(cart);
+
+                    dBContext.SaveChanges();
+                }
+            }
         }
 
         public void ResetCart(string customerId)
         {
-            // _cartRepo.DeleteAll();
+
+            using (var dBContext = new DBContext())
+            {
+                Cart cart = dBContext.Cart.FirstOrDefault(x => x.CustomerId == customerId);
+                if (cart != null)
+                {
+                    dBContext.Cart.Remove(cart);
+
+                    dBContext.SaveChanges();
+                }
+            }
         }
 
         /// <summary>
-        /// 
+        /// Get cart details
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns></returns>
 
         public CartDetails GetCartDetailsByCustomerId(string customerId)
         {
-            var cartData = _cartRepo.GetByCustomertId(customerId).FirstOrDefault();
-            CartDetails cartDetails = new CartDetails();
-            if (cartData != null)
-            {
-                cartDetails = GetCartDetails(cartData.CartId).Result;
-            }
 
-            return cartDetails;
+            using (var dBContext = new DBContext())
+            {
+                var cartData = dBContext.Cart.FirstOrDefault(x => x.CustomerId == customerId);
+                List<CartProductMapping> cartProductMapping = new List<CartProductMapping>();
+                if (cartData != null)
+                {
+                    cartProductMapping = dBContext.CartProductMapping.Where(x => x.CartId == cartData.Id).ToList();
+                    if (cartProductMapping != null)
+                    {
+                        List<ProductModel> productModels = new List<ProductModel>();
+                        foreach (var cartProduct in cartProductMapping)
+                        {
+                            var response = httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get, $"{configuration["AppSettings:ProductServiceEndpoint"]}/{cartProduct.ProductId}/sku/{cartProduct.SKU}")).Result;
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                ProductModel productModel = JsonConvert.DeserializeObject<ProductModel>(response.Content.ReadAsStringAsync().Result);
+                                productModel.Quantity = cartProduct.Quantity;
+                                productModels.Add(productModel);
+                            }
+                        }
+
+                        return new CartDetails
+                        {
+                            CartId = cartData.Id.ToString(),
+                            CustomerId = cartData.CustomerId,
+                            ProductInfo = productModels
+                        };
+                    }
+                    return new CartDetails
+                    {
+                        CartId = cartData.Id.ToString(),
+                        CustomerId = cartData.CustomerId,
+                    };
+                }
+            }
+            return null;
         }
 
         public async Task<CartDetails> GetCartDetails(string cartId)
         {
-            return GetCartDetails(cartId, true);
+
+            using (var dBContext = new DBContext())
+            {
+                var cartData = dBContext.Cart.FirstOrDefault(x => x.Id == cartId);
+                List<CartProductMapping> cartProductMapping = new List<CartProductMapping>();
+                if (cartData != null)
+                {
+                    cartProductMapping = dBContext.CartProductMapping.Where(x => x.CartId == cartData.Id).ToList();
+                    if (cartProductMapping != null)
+                    {
+                        List<ProductModel> productModels = new List<ProductModel>();
+                        foreach (var cartProduct in cartProductMapping)
+                        {
+                            var response = httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get, $"{configuration["AppSettings:ProductServiceEndpoint"]}/{cartProduct.ProductId}/sku/{cartProduct.SKU}")).Result;
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                ProductModel productModel = JsonConvert.DeserializeObject<ProductModel>(response.Content.ReadAsStringAsync().Result);
+                                productModel.Quantity = cartProduct.Quantity;
+                                productModels.Add(productModel);
+                            }
+                        }
+
+                        dBContext.SaveChanges();
+
+
+                        return new CartDetails
+                        {
+                            CartId = cartData.Id.ToString(),
+                            CustomerId = cartData.CustomerId,
+                            ProductInfo = productModels
+                        };
+                    }
+                    dBContext.SaveChanges();
+
+                    return new CartDetails
+                    {
+                        CartId = cartData.Id.ToString(),
+                        CustomerId = cartData.CustomerId,
+                    };
+                }
+                dBContext.SaveChanges();
+            }
+
+            return null;
         }
 
-        private CartDetails GetCartDetails(string cartId, bool fetchProducts)
+        public CartDetails GetCart(string cartId)
         {
-            CartDetails cartDetails = new CartDetails();
-            var cartProductMappingData = _cartProductMappingRepo.GetByCartId(cartId);
-            var cartData = _cartRepo.GetByCartId(cartId).FirstOrDefault();
-            if (cartProductMappingData != null && cartProductMappingData.Count > 0 && cartData != null)
-            {
-                List<ShortProductDetails> productList = new List<ShortProductDetails>();
-                if (fetchProducts)
-                {
-                    Parallel.ForEach(cartProductMappingData, (entry) =>
-                    {
-                        var serviceEnpoint = $"{_appsettings.ProductServiceEndpoint}{entry.ProductId}/sku/{entry.SKU}";
-                        var result = _httpCalls.GetClient<string, ProductModel>(entry.ProductId, new Uri(serviceEnpoint, UriKind.Absolute));
 
-                        if (result.Result != null)
-                        {
-                            var shortProductDeails = new ShortProductDetails
-                            {
-                                ProductId = result.Result.Id.ToString(),
-                                Quantity = entry.Quantity,
-                                Sku = result.Result.Sku,
-                                Features = result.Result.Features,
-                                Media = result.Result.Media,
-                                Price = result.Result.Price,
-                                ShortDescription = result.Result.ShortDescription
-                            };
-                            productList.Add(shortProductDeails);
-                        }
-                    });
-                }
-                cartDetails = new CartDetails
+            using (var dBContext = new DBContext())
+            {
+                var cartData = dBContext.Cart.FirstOrDefault(x => x.Id == cartId);
+                dBContext.SaveChanges();
+
+                return new CartDetails
                 {
-                    CartId = cartData.CartId.ToString(),
+                    CartId = cartData.Id,
                     CustomerId = cartData.CustomerId,
-                    CreatedDate = cartData.CreatedAt,
-                    LastUpdated = cartData.ModifiedDate,
-                    ProductInfo = productList
+                    CreatedDate = cartData.CreatedOn
                 };
             }
-            return cartDetails;
+        }
+
+        public void AddCartDetail(CartDetails inputData)
+        {
+            using (var dBContext = new DBContext())
+            {
+                var cartData = new Cart
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    CustomerId = inputData.CustomerId,
+                    Id = Guid.NewGuid().ToString(),
+                    ModifiedOn = DateTime.UtcNow
+                };
+                dBContext.Cart.Add(cartData);
+
+                if (inputData.ProductInfo != null && inputData.ProductInfo.Any())
+                {
+                    List<CartProductMapping> cartProductMappings = new List<CartProductMapping>();
+                    inputData.ProductInfo.ForEach((item) =>
+                    {
+                        var cartProductMapping = new CartProductMapping
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            CartId = cartData.Id,
+                            CreatedOn = DateTime.UtcNow,
+                            ModifiedOn = DateTime.UtcNow,
+                            ProductId = item.ProductId,
+                            Quantity = item.Quantity,
+                            SKU = item.Sku
+                        };
+                        cartProductMappings.Add(cartProductMapping);
+                    });
+
+                    dBContext.CartProductMapping.AddRange(cartProductMappings);
+                }
+                dBContext.SaveChanges();
+            }
+            
         }
 
         public void UpdateCartDetail(CartDetails inputData)
         {
-            var cartData = new Cart
+            using (var dBContext = new DBContext())
             {
-                CreatedAt = inputData.CreatedDate,
-                CustomerId = inputData.CustomerId,
-                Id = Guid.Parse(inputData.CartId),
-                ModifiedDate = inputData.LastUpdated
-            };
-            _cartRepo.Update(cartData);
-            inputData.ProductInfo.ForEach((item) =>
-            {
-                var cartProductMapping = new CartProductMapping
+                var cartData = new Cart
                 {
-                    CartId = inputData.CartId,
-                    CreatedAt = inputData.CreatedDate,
-                    ModifiedDate = inputData.LastUpdated,
-                    Id = Guid.NewGuid(),
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    SKU = item.Sku
-                };
-                _cartProductMappingRepo.Update(cartProductMapping);
-            });
-        }
-
-        public CartDetails AddNewItemInCart(CartDetails inputData)
-        {
-            if (inputData is null)
-                throw new Exception("Input Data is not present");
-            Cart cart = null;
-            if (!string.IsNullOrEmpty(inputData.CartId))
-            {
-                cart = CreateNewCartIfRequired(inputData);
-            }
-            inputData.ProductInfo.ForEach((item) =>
-            {
-                var cartProductMapping = new CartProductMapping
-                {
-                    CartId = inputData.CartId,
-                    CreatedAt = inputData.CreatedDate,
-                    ModifiedDate = inputData.LastUpdated,
-                    Id = Guid.NewGuid(),
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    SKU = item.Sku
-                };
-                _cartProductMappingRepo.Insert(cartProductMapping);
-            });
-
-            return inputData;
-        }
-
-        private Cart CreateNewCartIfRequired(CartDetails inputData)
-        {
-            Cart cart = _cartRepo.GetByCartId(inputData.CartId).FirstOrDefault();
-            if (cart == null)
-            {
-                cart = new Cart()
-                {
-                    CreatedAt = inputData.CreatedDate,
+                    CreatedOn = inputData.CreatedDate,
                     CustomerId = inputData.CustomerId,
-                    Id = Guid.Parse(inputData.CartId),
-                    ModifiedDate = inputData.LastUpdated
+                    Id = inputData.CartId,
+                    ModifiedOn = DateTime.UtcNow
                 };
-                _cartRepo.Insert(cart);
-            }
 
-            return cart;
+                dBContext.Cart.Update(cartData);
+
+                if (inputData.ProductInfo != null && inputData.ProductInfo.Any())
+                {
+                    List<CartProductMapping> updatedcartProductMappings = new List<CartProductMapping>();
+                    List<CartProductMapping> deletedcartProductMappings = new List<CartProductMapping>();
+                    inputData.ProductInfo.ForEach((item) =>
+                    {
+                        var cartProductMapping = new CartProductMapping
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            CartId = cartData.Id,
+                            CreatedOn = DateTime.UtcNow,
+                            ModifiedOn = DateTime.UtcNow,
+                            ProductId = item.ProductId,
+                            Quantity = item.Quantity,
+                            SKU = item.Sku
+                        };
+
+                        if (item.Quantity < 1)
+                        {
+                            deletedcartProductMappings.Add(cartProductMapping);
+                        }
+                        else
+                        {
+                            updatedcartProductMappings.Add(cartProductMapping);
+                        }
+                    });
+
+                    if(updatedcartProductMappings != null && updatedcartProductMappings.Any())
+                    {
+                        dBContext.CartProductMapping.UpdateRange(updatedcartProductMappings);
+                        dBContext.SaveChanges();
+                    }
+                    if (deletedcartProductMappings != null && deletedcartProductMappings.Any())
+                    {
+                        dBContext.CartProductMapping.RemoveRange(deletedcartProductMappings);
+                        dBContext.SaveChanges();
+                    }
+
+                }
+            }
         }
 
         public IEnumerable<CartDetails> GetAllCartItems()
         {
-            List<CartDetails> cartDetails = new List<CartDetails>();
-
-            foreach (var data in _cartRepo.GetAll())
+            using (var dBContext = new DBContext())
             {
-                cartDetails.Add(GetCartDetails(data.Id.ToString(), false));
+                var cartData = dBContext.Cart;
+                List<CartProductMapping> cartProductMapping = new List<CartProductMapping>();
             }
-
-            return cartDetails;
+            return null;
         }
     }
 }

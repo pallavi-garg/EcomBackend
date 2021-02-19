@@ -40,21 +40,6 @@ namespace CartService.DataAccess.SQL.Migrations
 
                     b.ToTable("Cart");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("325c5ee8-ba74-47c5-9e4c-a8bd24a9b570"),
-                            CreatedAt = new DateTime(2021, 2, 14, 15, 21, 57, 806, DateTimeKind.Local).AddTicks(6476),
-                            CustomerId = "RAHULXXXX123",
-                            ModifiedDate = new DateTime(2021, 2, 14, 15, 21, 57, 806, DateTimeKind.Local).AddTicks(8462)
-                        },
-                        new
-                        {
-                            Id = new Guid("8fa73bc7-fe97-4c67-9ac3-2991958f6469"),
-                            CreatedAt = new DateTime(2021, 4, 5, 15, 21, 57, 806, DateTimeKind.Local).AddTicks(9027),
-                            CustomerId = "RAHULXXXX123",
-                            ModifiedDate = new DateTime(2021, 4, 5, 15, 21, 57, 806, DateTimeKind.Local).AddTicks(9075)
-                        });
                 });
 
             modelBuilder.Entity("CartService.DataAccess.SQL.CartProductMapping", b =>
