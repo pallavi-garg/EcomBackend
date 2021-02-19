@@ -11,10 +11,10 @@ namespace CartService.DataAccess.SQL.Migrations
                 name: "Cart",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<string>(type: "varchar(900)", nullable: false),
                     CustomerId = table.Column<string>(type: "varchar(900)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,17 +26,18 @@ namespace CartService.DataAccess.SQL.Migrations
                 name: "CartProductMapping",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CartId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<string>(type: "varchar(900)", nullable: false),
+                    CartId = table.Column<string>(type: "varchar(900)", nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(900)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     SKU = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartProductMapping", x => x.Id);
+                    table.PrimaryKey("PK_CartProductMapping", x => new { x.CartId, x.ProductId });
+                    table.ForeignKey("FK_CartProductMapping", x => x.CartId, "Cart", "Id" ,null, ReferentialAction.NoAction, ReferentialAction.Cascade);
                 });
 
         }

@@ -6,10 +6,8 @@ namespace CartService.DataAccess.SQL
 {
     public class BaseEntity : IEntity
     {
-        [Key]
-        public Guid Id { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime ModifiedDate { get; set; } = DateTime.Now;
-        public string CartId { get; set; } = null;
+        public string Id { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;
     }
 }

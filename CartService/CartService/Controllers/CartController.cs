@@ -43,20 +43,41 @@ namespace CartService.Controllers
         }
 
         /// <summary>
-        /// Not MVP
+        /// Add/Update carts
         /// </summary>
         /// <param name="inputData"></param>
-        [HttpPut("update/{id}")]
-        public void UpdateCartDetail([FromBody] CartDetails inputData)
+        [HttpPost]
+        public ActionResult<CartDetails> UpsertCartDetail([FromBody] CartDetails inputData)
         {
-            _cartProvider.UpdateCartDetail(inputData);
+            if(string.IsNullOrWhiteSpace(inputData.CartId))
+            {
+                // create new cart
+                _cartProvider.AddCartDetail(inputData);
+            }
+            else
+            {
+                CartDetails existingCart = _cartProvider.GetCart(inputData.CartId);
+                if(existingCart != null)
+                {
+                    if (existingCart.CustomerId == inputData.CustomerId)
+                    {
+                        inputData.CreatedDate = existingCart.CreatedDate;
+                        //Update Cart
+                        _cartProvider.UpdateCartDetail(inputData);
+                    }
+                    else
+                    {
+                        return Unauthorized();
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return null;
         }
 
-        [HttpPost("addproduct")]
-        public CartDetails AddNewItemInCart([FromBody] CartDetails inputData)
-        {
-            return _cartProvider.AddNewItemInCart(inputData);
-        }
 
         /// <summary>
         /// return bool
