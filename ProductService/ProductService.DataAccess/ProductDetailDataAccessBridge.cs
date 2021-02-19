@@ -23,14 +23,9 @@ namespace ProductService.DataAccess
             return true;
         }
 
-        public IEnumerable<ProductModel> GetAllProducts()
+        public SearchResult<ProductModel> GetAllProducts(string continuationToken)
         {
-            return readService.GetAllItems<ProductModel>();
-        }
-
-        public ProductModel GetProductById(string id)
-        {
-            return readService.GetItemById<ProductModel>(id);
+            return readService.GetAllItems<ProductModel>(continuationToken);
         }
 
         public ProductModel GetProductByName(string name)
@@ -38,10 +33,16 @@ namespace ProductService.DataAccess
             return new ProductModel();
         }
 
-        public List<ProductModel> SearchProduct(string query)
+        public SearchResult<ProductModel> SearchProduct(string query, string continuationToken)
         {
-            return readService.GetItemByQuery<ProductModel>(query);
+            return readService.GetItemByQuery<ProductModel>(query, continuationToken);
         }
+
+        public int GetProductCount(string query)
+        {
+            return readService.GetItemCountByQuery(query);
+        }
+
 
         public bool UpdateProductDetail(ProductModel inputData, string productId)
         {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CartService.Shared.Model
+namespace OrderService.Shared.Model
 {
     public class ShortProductDetails
     {
@@ -14,8 +14,9 @@ namespace CartService.Shared.Model
 
         public Dictionary<string, string> Features { get; set; }
 
-        public string Price { get; set; }
-
         public string ShortDescription { get; set; }
+
+        public decimal Price { get; set; }
+        public decimal Tax { get; set; }
     }
 }

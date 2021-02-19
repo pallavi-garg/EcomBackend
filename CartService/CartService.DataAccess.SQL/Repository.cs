@@ -31,9 +31,14 @@
 
         public List<T> GetByCartId(string cartId)
         {
-            var entitities = entities.Where(s => s.CartId.ToString() == cartId);
+            var entitities = entities.Where(s => s.CartId == cartId);
+            return entitities.ToList();
+        }
 
-            return entities.ToList();
+        public List<T> GetByCustomertId(string customertId)
+        {
+            var entitities = entities.OfType<Cart>().Where(s => s.CustomerId == customertId);
+            return entitities.OfType<T>().ToList();
         }
 
         public void Insert(T entity)

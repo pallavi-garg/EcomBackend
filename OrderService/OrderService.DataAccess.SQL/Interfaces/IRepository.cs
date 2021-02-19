@@ -14,5 +14,9 @@ namespace OrderService.DataAccess.SQL.Interfaces
         void Update(T entity);
         void Delete(string id);
         void Save();
+
+        List<T> GetOrderByCustomerId(string id);
+
+        IEnumerable<T> GetProductByOrderId(string orderId);
     }
 }

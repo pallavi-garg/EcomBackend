@@ -5,6 +5,7 @@ using ProductService.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 // TODO restrict methods lie add update delete
 namespace ProductService.WebAPI.Controllers
@@ -21,24 +22,21 @@ namespace ProductService.WebAPI.Controllers
         }
         
         [HttpGet]
-        public IEnumerable<ProductModel> GetAllProductList()
+        public SearchResult<ProductModel> GetAllProductList(string continuationToken)
         {
-
-            var a = HttpContext.User;
             //foreach (var item in User.Claims)
             //{
             //    Console.WriteLine(item.Type+":"+item.Value);
             //}
             //  var userId = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value);
             // var role = User.Claims.FirstOrDefault(c => c.Type == "extension_Role")?.Value;
-
-            return _productDetailProvider.GetAllProducts();
+            return _productDetailProvider.GetAllProducts(continuationToken);
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<ProductModel> GetProductById(string id)
+        [HttpGet("{id}/sku/{skuId}")]
+        public ActionResult<ProductModel> GetProductById(string id, string skuId)
         {
-            return _productDetailProvider.GetProductById(id);
+            return _productDetailProvider.GetProductById(id, skuId);
         }
 
         [HttpGet("productName/{productName}")]
@@ -48,9 +46,15 @@ namespace ProductService.WebAPI.Controllers
         }
 
         [HttpGet("search")]
-        public ActionResult<List<ProductModel>> SearchProduct(List<SearchDTO> searchDetails)
+        public ActionResult<SearchResult<ProductModel>> SearchProduct(List<SearchDTO> searchDetails, [FromHeader] string continuationToken)
         {
-            return _productDetailProvider.SearchProduct(searchDetails);
+            return _productDetailProvider.SearchProduct(searchDetails, continuationToken);
+        }
+
+        [HttpGet("department/{departmentId}")]
+        public ActionResult<SearchResult<ProductModel>> SearchProductByDepartment(string departmentId, [FromHeader] string continuationToken)
+        {
+            return _productDetailProvider.GetProductByDepartment(departmentId, continuationToken);
         }
 
         [Authorize(Policy = "Admin")]

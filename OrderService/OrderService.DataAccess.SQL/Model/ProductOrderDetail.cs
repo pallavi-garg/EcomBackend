@@ -1,8 +1,4 @@
-﻿using OrderService.DataAccess.SQL;
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace OrderService.Shared.Model
+﻿namespace OrderService.DataAccess.SQL
 {
     public class ProductOrderDetail: BaseEntity
     {

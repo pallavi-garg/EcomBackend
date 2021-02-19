@@ -5,13 +5,14 @@ namespace ProductService.DataAccess
 {
     public interface IProductDetailDataAccessBridge
     {
-        IEnumerable<ProductModel> GetAllProducts();
-
-        ProductModel GetProductById(string id);
+        SearchResult<ProductModel> GetAllProducts(string continuationToken);
 
         ProductModel GetProductByName(string name);
 
-        List<ProductModel> SearchProduct(string query);
+
+        SearchResult<ProductModel> SearchProduct(string query, string continuationToken);
+
+        int GetProductCount(string query);
 
         bool UpdateProductDetail(ProductModel inputData, string productId);
 

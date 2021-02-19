@@ -9,6 +9,6 @@ namespace CartService.Shared.Model
         public string CustomerId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastUpdated { get; set; }
-        public List<ShortProductDetails> productInfo { get; set; }
+        public List<ShortProductDetails> ProductInfo { get; set; }
     }
 }

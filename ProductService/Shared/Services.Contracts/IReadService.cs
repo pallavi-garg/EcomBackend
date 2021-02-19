@@ -1,5 +1,6 @@
 ﻿namespace Services.Contracts
 {
+    using ProductService.Shared;
     using System.Collections.Generic;
 
     public interface IReadService
@@ -15,16 +16,20 @@
         /// <summary>
         /// Get all the items
         /// </summary>
+        /// <param name="continuationToken"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        List<T> GetAllItems<T>();
+        SearchResult<T> GetAllItems<T>(string continuationToken);
 
         /// <summary>
         /// Get an item by query
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="query"></param>
+        /// <param name="continuationToken"></param>
         /// <returns></returns>
-        List<T> GetItemByQuery<T>(string query);
+        SearchResult<T> GetItemByQuery<T>(string query, string continuationToken);
+
+        int GetItemCountByQuery(string query);
     }
 }

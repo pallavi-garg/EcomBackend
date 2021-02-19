@@ -16,7 +16,7 @@ namespace OrderService.DataAccess.SQL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OrderDetails>().HasData(new OrderDetails
+            var order1 = new OrderDetails
             {
                 BillingAddressId = "New Address",
                 ReceipentAddressId = "New Address",
@@ -29,7 +29,9 @@ namespace OrderService.DataAccess.SQL
                 PaymentId = Guid.NewGuid().ToString(),
                 PromotionId = "#1qaz2wsx"
 
-            }, new OrderDetails
+            };
+
+            var order2 = new OrderDetails
             {
                 BillingAddressId = "Old Address",
                 ReceipentAddressId = "Old Address",
@@ -41,6 +43,33 @@ namespace OrderService.DataAccess.SQL
                 OrderStatus = 1,
                 PaymentId = Guid.NewGuid().ToString(),
                 PromotionId = "#3edc$RFV"
+            };
+
+            modelBuilder.Entity<OrderDetails>().HasData(order1, order2);
+
+            modelBuilder.Entity<ProductOrderDetail>().HasData(new ProductOrderDetail
+            {
+                OrderId = order1.Id.ToString(),
+                Id = Guid.NewGuid(),
+                CreatedAt = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                Quantity = 2,
+                ProductId = "1243",
+                SKU = "1235",
+                Tax = 12
+
+            });
+            modelBuilder.Entity<ProductOrderDetail>().HasData(new ProductOrderDetail
+            {
+                OrderId = order2.Id.ToString(),
+                Id = Guid.NewGuid(),
+                CreatedAt = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                Quantity = 2,
+                ProductId = "1241",
+                SKU = "1234",
+                Tax = 12
+
             });
 
         }

@@ -1,23 +1,32 @@
-using AzureCosmos.ReadService;
-using AzureCosmos.WriteService;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Autofac;
+using IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Azure.ServiceBus.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Logging;
-using ProductService.AzureBus;
-using ProductService.BusinessLogic;
-using ProductService.DataAccess;
-using Services.Contracts;
+using Microsoft.OpenApi.Models;
+using System;
+using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace ProductService.WebApi
 {
     public class Startup
     {
+        #region Private Members
+
+        private const string enableSwaggerKey = "EnableSwagger";
+        private const string swaggerVersion = "v1";
+        private const string swaggerTitle = "Product Service API";
+        private const string swaggerEndpointName = "Product Service API V1";
+        private const string swaggerEndpointUrl = "swagger/v1/swagger.json";
+        private const string AllowedOriginsKey = "AllowedOrigins";
+        private string[] allowedOrigins = null;
+
+        #endregion
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,27 +34,26 @@ namespace ProductService.WebApi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This is the default if you don't have an environment specific method.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new ProductContainerModule());
+        }
+
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container. 
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // to make the incoming token claims value default and not what microsoft uses
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            RegisterSwagger(services);
+            RegisterCors(services);
 
-
-            IdentityModelEventSource.ShowPII = true;
             services.AddControllers();
-            // DI injection
-            services.AddSingleton<IProductDetailsProvider, ProductDetailsProviders>();
-            services.AddSingleton<IBaseDataAccessBridge, DataAccessBridge>();
-            services.AddSingleton<IProductInventoryManager, ProductInventoryManager>();
-            
-            services.AddTransient<IReadService, CosmosReadService>(provider => new CosmosReadService(provider.GetService<IConfiguration>(),
-                "CosmosEndpointConnectionString", "CosmosDatabaseId", "ProductDetailsCosmosCollectionId", provider.GetService<ILogger<CosmosReadService>>()));
-            services.AddTransient<IWriteService, CosmosWriteService>(provider => new CosmosWriteService(provider.GetService<IConfiguration>(),
-                "CosmosEndpointConnectionString", "CosmosDatabaseId", "ProductDetailsCosmosCollectionId", provider.GetService<ILogger<CosmosWriteService>>()));
-
-            services.AddSingleton<IMessageReceiver, MessageReceiver>();
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -59,7 +67,7 @@ namespace ProductService.WebApi
                         "Admin",
                         policy => policy.RequireClaim("extension_Role", "212342"));
                 });
-
+            //services.AddSingleton<IMessageReceiver, MessageReceiver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,6 +81,9 @@ namespace ProductService.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            UseSwagger(app); 
+            UseCors(app);
+
 
             app.UseAuthentication();
 
@@ -82,10 +93,79 @@ namespace ProductService.WebApi
             {
                 endpoints.MapControllers();
             });
-
-            var messageReceiver = app.ApplicationServices.GetService<IMessageReceiver>();
-            //TODO: Uncomment when service bus settings are added
-            //messageReceiver.StartReceivingOrdersMadeRequest(1);
         }
+
+        #region Private Methods
+
+        /// <summary>
+        /// Register swagger
+        /// </summary>
+        /// <param name="services"></param>
+        private void RegisterSwagger(IServiceCollection services)
+        {
+            bool.TryParse(Configuration[enableSwaggerKey], out bool enableSwagger);
+            if (enableSwagger)
+            {
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc(swaggerVersion, new OpenApiInfo { Title = swaggerTitle, Version = swaggerVersion });
+
+                });
+            }
+        }
+
+        /// <summary>
+        /// Add Swagger configuration in middleware.
+        /// </summary>
+        /// <param name="app"></param>
+        private void UseSwagger(IApplicationBuilder app)
+        {
+            bool.TryParse(Configuration[enableSwaggerKey], out bool enableSwagger);
+            if (enableSwagger)
+            {
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+
+                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint($"/{swaggerEndpointUrl}", swaggerEndpointName);
+                    c.RoutePrefix = string.Empty;
+                });
+            }
+        }
+
+
+        /// <summary>
+        /// Register CORS with middleware.
+        /// </summary>
+        /// <param name="services"></param>
+        private void RegisterCors(IServiceCollection services)
+        {
+            string allowedHostsConfigValue = Configuration[AllowedOriginsKey];
+            allowedOrigins = (string.IsNullOrWhiteSpace(allowedHostsConfigValue)) ? null :
+                                allowedHostsConfigValue.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(origin => origin.Trim()).ToArray();
+
+            // Register CORS only if any hosts are provided
+            if (allowedOrigins != null && allowedOrigins.Any())
+            {
+                services.AddCors();
+            }
+        }
+
+        /// <summary>
+        /// Add origins which are allowed to call this service.
+        /// </summary>
+        /// <param name="app"></param>
+        private void UseCors(IApplicationBuilder app)
+        {
+            // Enable CORS for specified hosts only
+            if (allowedOrigins != null && allowedOrigins.Any())
+            {
+                app.UseCors(options => options.WithOrigins(allowedOrigins).WithMethods("GET", "POST", "PUT").WithHeaders("*"));
+            }
+        }
+
+        #endregion
     }
 }

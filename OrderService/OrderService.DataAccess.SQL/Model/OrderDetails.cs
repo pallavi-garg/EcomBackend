@@ -1,7 +1,6 @@
-﻿using OrderService.DataAccess.SQL;
-using System;
+﻿using System;
 
-namespace OrderService.Shared.Model
+namespace OrderService.DataAccess.SQL
 {
     public class OrderDetails : BaseEntity
     {
