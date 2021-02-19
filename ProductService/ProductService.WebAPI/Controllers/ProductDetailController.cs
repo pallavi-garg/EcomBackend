@@ -11,7 +11,7 @@ namespace ProductService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    
     public class ProductDetailController : ControllerBase
     {
         IProductDetailsProvider _productDetailProvider;
@@ -19,7 +19,7 @@ namespace ProductService.WebAPI.Controllers
         {
             _productDetailProvider = productDetailProvider;
         }
-        [Authorize(Policy = "Admin")]
+        
         [HttpGet]
         public IEnumerable<ProductModel> GetAllProductList()
         {
@@ -29,8 +29,8 @@ namespace ProductService.WebAPI.Controllers
             //{
             //    Console.WriteLine(item.Type+":"+item.Value);
             //}
-             var userId = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value);
-            var role = User.Claims.FirstOrDefault(c => c.Type == "extension_Role")?.Value;
+            //  var userId = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value);
+            // var role = User.Claims.FirstOrDefault(c => c.Type == "extension_Role")?.Value;
 
             return _productDetailProvider.GetAllProducts();
         }
@@ -53,7 +53,7 @@ namespace ProductService.WebAPI.Controllers
             return _productDetailProvider.SearchProduct(searchDetails);
         }
 
-        
+        [Authorize(Policy = "Admin")]
         [HttpPut("{id}")]
         public bool UpdateProductDetail(string productId, [FromBody] ProductModel inputData)
         {
