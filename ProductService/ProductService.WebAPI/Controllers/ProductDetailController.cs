@@ -64,12 +64,14 @@ namespace ProductService.WebAPI.Controllers
             return _productDetailProvider.UpdateProductDetail(inputData, productId);
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public ProductModel AddProductDetail([FromBody] ProductModel inputData)
         {
             return _productDetailProvider.AddProductDetail(inputData);
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpDelete("{id}")]
         public bool DeleteProduct(string id)
         {

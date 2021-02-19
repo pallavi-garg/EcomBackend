@@ -2,6 +2,7 @@
 using ProductService.BusinessLogic;
 using ProductService.Shared;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 // TODO restrict methods lie add update delete
 namespace ProductService.WebAPI.Controllers
@@ -23,7 +24,7 @@ namespace ProductService.WebAPI.Controllers
             return _categoryProvider.GetCategoryByDepartment(departmentId, continuationToken);
         }
 
-
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public Category AddCategory([FromBody] Category inputData)
         {

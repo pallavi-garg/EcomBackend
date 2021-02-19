@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ProductService.WebApi
 {
