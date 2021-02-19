@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["./ProductService.WebApi/ProductService.WebApi.csproj", "ProductService.WebApi/"]
-RUN dotnet restore "ProductService.WebApi/ProductService.WebApi.csproj"
+COPY ["./ProductService.WebAPI/ProductService.WebAPI.csproj", "ProductService.WebAPI/"]
+RUN dotnet restore "ProductService.WebAPI/ProductService.WebAPI.csproj"
 COPY . .
-WORKDIR "/src/ProductService.WebApi"
-RUN dotnet build "ProductService.WebApi.csproj" -c Release -o /app/build
+WORKDIR "/src/ProductService.WebAPI"
+RUN dotnet build "ProductService.WebAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ProductService.WebApi.csproj" -c Release -o /app/publish
+RUN dotnet publish "ProductService.WebAPI.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ProductService.WebApi.dll"]
+ENTRYPOINT ["dotnet", "ProductService.WebAPI.dll"]

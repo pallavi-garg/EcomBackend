@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureCosmos.WriteService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Contracts", "Shared\Services.Contracts\Services.Contracts.csproj", "{2A1424A4-0D09-4F15-B5CE-C7A3582E5B4E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.WebApi", "ProductService.WebApi\ProductService.WebApi.csproj", "{190EB634-8087-4FF2-ADE7-55BD7DEFCA34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.WebAPI", "ProductService.WebAPI\ProductService.WebAPI.csproj", "{190EB634-8087-4FF2-ADE7-55BD7DEFCA34}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.DataAccess", "ProductService.DataAccess\ProductService.DataAccess.csproj", "{CE8FD808-8A36-4315-AD21-4373BC80BFEC}"
 EndProject
