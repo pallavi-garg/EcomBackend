@@ -30,7 +30,13 @@ namespace OrderService.BusinessLogic
 
         public void DeleteOrderById(string orderId)
         {
-            _repo.Delete(orderId);
+            var order = _repo.GetById(orderId);
+            if (order != null)
+            {
+                order.OrderStatus = 4;
+                order.ModifiedDate = DateTime.Now;
+                _repo.Update(order);
+            }
         }
 
         public IEnumerable<Order> GetAllOrders()

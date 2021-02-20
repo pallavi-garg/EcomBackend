@@ -39,7 +39,6 @@ namespace OrderService.API.Controllers
 
         /// <summary>
         /// id would be order id
-        /// TODO should return Order 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -77,10 +76,4 @@ namespace OrderService.API.Controllers
         }
     }
 
-    //TODO:
-    //1. sync comm to fetch product details to return complete order details
-        //1.1. controller - end point
-        //1.2. repo
-    //2. move setting.cs to lauchsetting.json
-    //3. end point to get order based on user - not mvp
 }
