@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Extensions.Options;
+using OrderService.AzureBus;
 using OrderService.BusinessLogic.Interface;
 using OrderService.DataAccess.SQL;
 using OrderService.DataAccess.SQL.Interfaces;
@@ -91,7 +92,7 @@ namespace OrderService.BusinessLogic
 
             inputData.InvoiceNumber = orderDetails.InvoiceNumber;
 
-            //MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(productOrderDetails)).Wait();
+            MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(productOrderDetails)).Wait();
 
             return inputData;
         }

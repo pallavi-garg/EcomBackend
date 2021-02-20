@@ -46,6 +46,7 @@ namespace ProductService.DataAccess
 
         public bool UpdateProductDetail(ProductModel inputData, string productId)
         {
+            writeService?.UpdateItem<ProductModel>(inputData.ProductId, inputData);
             return true;
         }
 
