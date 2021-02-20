@@ -191,7 +191,8 @@ namespace OrderService.BusinessLogic
                     ProductId = product.ProductId,
                     Quantity = product.Quantity,
                     ProductPurchasePrice = product.Price,
-                    SKU = product.Sku
+                    SKU = product.Sku,
+                    Tax = product.Tax
                 });
             }
             
