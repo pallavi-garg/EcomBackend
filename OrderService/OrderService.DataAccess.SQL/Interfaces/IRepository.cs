@@ -18,5 +18,6 @@ namespace OrderService.DataAccess.SQL.Interfaces
         List<T> GetOrderByCustomerId(string id);
 
         IEnumerable<T> GetProductByOrderId(string orderId);
+        void Detach(T entity);
     }
 }

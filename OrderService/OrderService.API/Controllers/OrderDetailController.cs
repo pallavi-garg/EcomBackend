@@ -49,10 +49,10 @@ namespace OrderService.API.Controllers
         }
 
         /// <summary>
-        /// Not MVP
+        ///
         /// </summary>
         /// <param name="inputData"></param>
-        [HttpPut("{Id}")]
+        [HttpPut("update")]
         public void UpdateOrderDetail([FromBody] Order inputData)
         {
             _orderProvider.UpdateOrderDetail(inputData);
