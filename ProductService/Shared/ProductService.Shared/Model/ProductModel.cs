@@ -51,7 +51,7 @@ namespace ProductService.Shared
         public ImageDetail[] Media { get; set; }
         
         [DataMember]
-        public Dictionary<string,string> Features { get; get; }
+        public Dictionary<string,string> Features { get; set; }
     }
 
 }
