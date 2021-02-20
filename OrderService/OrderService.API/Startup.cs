@@ -35,7 +35,7 @@ namespace OrderService.API
             services.AddControllers();
             services.AddDbContextPool<DBContext>(options =>
             {
-                options.UseSqlServer(Configuration["ConnectionString:OrderDB"]);
+                options.UseMySql(Configuration["ConnectionString:OrderDB"], new MySqlServerVersion(new System.Version(8, 0, 21)));
             });
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IOrderProvider, OrderProvider>();
