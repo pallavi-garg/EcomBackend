@@ -59,7 +59,7 @@ namespace OrderService.API.Controllers
         }
 
         [HttpPost("add")]
-        public Order AddNewOrder([FromBody] Order inputData)
+        public ActionResult<string> AddNewOrder([FromBody] Order inputData)
         {
             return _orderProvider.AddNewOrder(inputData);
         }

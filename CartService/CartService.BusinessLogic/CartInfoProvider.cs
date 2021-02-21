@@ -73,7 +73,7 @@ namespace CartService.BusinessLogic
                 List<CartProductMapping> cartProductMapping = new List<CartProductMapping>();
                 if (cartData != null)
                 {
-                    cartProductMapping = dBContext.CartProductMapping.Where(x => x.CartId == cartData.Id).ToList();
+                    cartProductMapping = dBContext.CartProductMapping.Where(x => x.CartId == cartData.Id && x.Quantity > 0).ToList();
                     if (cartProductMapping != null)
                     {
                         List<ProductModel> productModels = new List<ProductModel>();
@@ -125,7 +125,7 @@ namespace CartService.BusinessLogic
                 List<CartProductMapping> cartProductMapping = new List<CartProductMapping>();
                 if (cartData != null)
                 {
-                    cartProductMapping = dBContext.CartProductMapping.Where(x => x.CartId == cartData.Id).ToList();
+                    cartProductMapping = dBContext.CartProductMapping.Where(x => x.CartId == cartData.Id && x.Quantity > 0).ToList();
                     if (cartProductMapping != null)
                     {
                         List<ProductModel> productModels = new List<ProductModel>();

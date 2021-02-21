@@ -113,7 +113,7 @@ namespace OrderService.BusinessLogic
             MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(newProductOrderDetails.Union(matchingProductOrderDetails).ToList())).Wait();
         }
 
-        public Order AddNewOrder(Order inputData)
+        public string AddNewOrder(Order inputData)
         {
             Guid orderId = Guid.NewGuid();
             OrderDetails orderDetails = new OrderDetails();
@@ -126,7 +126,7 @@ namespace OrderService.BusinessLogic
 
             MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(productOrderDetails)).Wait();
 
-            return inputData;
+            return orderId.ToString();
         }
 
         /// <summary>

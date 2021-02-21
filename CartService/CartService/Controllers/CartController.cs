@@ -88,5 +88,11 @@ namespace CartService.Controllers
             }
             return null;
         }
+
+        [HttpPut("resetCart/{customerId}")]
+        public void ResetCart(string customerId)
+        {
+            _cartProvider.ResetCart(customerId);
+        }
     }
 }
