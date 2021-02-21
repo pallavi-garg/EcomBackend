@@ -15,12 +15,13 @@ namespace CartService.BusinessLogic.Interface
 
         CartDetails GetCartDetailsByCustomerId(string customerId);
 
-        void UpdateCartDetail(CartDetails inputData);
-        void AddCartDetail(CartDetails inputData);
+        string UpdateCartDetail(CartDetails inputData);
+        string AddCartDetail(CartDetails inputData);
 
         void DeleteItemFromCart(string productId);
 
         void ResetCart(string customerId);
         IEnumerable<CartDetails> GetAllCartItems();
+        int GetCartItemsCount(string customerId);
     }
 }

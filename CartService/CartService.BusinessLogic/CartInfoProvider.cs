@@ -105,6 +105,17 @@ namespace CartService.BusinessLogic
             return null;
         }
 
+        public int GetCartItemsCount(string customerId)
+        {
+            var cartDetails = GetCartDetailsByCustomerId(customerId);
+            var noOfItems = 0;
+            cartDetails?.ProductInfo.ForEach((item) =>
+            {
+                noOfItems += item.Quantity;
+            });
+            return noOfItems;
+        }
+
         public async Task<CartDetails> GetCartDetails(string cartId)
         {
 
@@ -124,7 +135,7 @@ namespace CartService.BusinessLogic
                             if (response.StatusCode == HttpStatusCode.OK)
                             {
                                 ProductModel productModel = JsonConvert.DeserializeObject<ProductModel>(response.Content.ReadAsStringAsync().Result);
-                                productModel.Quantity = cartProduct.Quantity;
+                                productModel.CartQuantity = cartProduct.Quantity;
                                 productModels.Add(productModel);
                             }
                         }
@@ -170,7 +181,7 @@ namespace CartService.BusinessLogic
             }
         }
 
-        public void AddCartDetail(CartDetails inputData)
+        public string AddCartDetail(CartDetails inputData)
         {
             using (var dBContext = new DBContext())
             {
@@ -195,7 +206,7 @@ namespace CartService.BusinessLogic
                             CreatedOn = DateTime.UtcNow,
                             ModifiedOn = DateTime.UtcNow,
                             ProductId = item.ProductId,
-                            Quantity = item.Quantity,
+                            Quantity = item.CartQuantity,
                             SKU = item.Sku
                         };
                         cartProductMappings.Add(cartProductMapping);
@@ -204,11 +215,12 @@ namespace CartService.BusinessLogic
                     dBContext.CartProductMapping.AddRange(cartProductMappings);
                 }
                 dBContext.SaveChanges();
+                return cartData.Id;
             }
-            
+
         }
 
-        public void UpdateCartDetail(CartDetails inputData)
+        public string UpdateCartDetail(CartDetails inputData)
         {
             using (var dBContext = new DBContext())
             {
@@ -228,28 +240,42 @@ namespace CartService.BusinessLogic
                     List<CartProductMapping> deletedcartProductMappings = new List<CartProductMapping>();
                     inputData.ProductInfo.ForEach((item) =>
                     {
+                        CartProductMapping existingProduct = null;
+                        using (var dBContext1 = new DBContext())
+                        {
+                            existingProduct = dBContext1.CartProductMapping.FirstOrDefault(x => x.ProductId == item.ProductId && x.SKU == item.Sku);
+                        }
+                        
                         var cartProductMapping = new CartProductMapping
                         {
-                            Id = Guid.NewGuid().ToString(),
                             CartId = cartData.Id,
                             CreatedOn = DateTime.UtcNow,
                             ModifiedOn = DateTime.UtcNow,
                             ProductId = item.ProductId,
-                            Quantity = item.Quantity,
+                            Quantity = existingProduct != null ? existingProduct.Quantity + (item.CartQuantity) : item.CartQuantity,
+                            Id = existingProduct != null ? existingProduct.Id : Guid.NewGuid().ToString(),
                             SKU = item.Sku
                         };
 
-                        if (item.Quantity < 1)
+                        if (existingProduct != null)
                         {
-                            deletedcartProductMappings.Add(cartProductMapping);
+                            if (item.Quantity < 1)
+                            {
+                                deletedcartProductMappings.Add(cartProductMapping);
+                            }
+                            else
+                            {
+                                updatedcartProductMappings.Add(cartProductMapping);
+                            }
                         }
                         else
                         {
-                            updatedcartProductMappings.Add(cartProductMapping);
+                            dBContext.CartProductMapping.AddRange(cartProductMapping);
+                            dBContext.SaveChanges();
                         }
                     });
 
-                    if(updatedcartProductMappings != null && updatedcartProductMappings.Any())
+                    if (updatedcartProductMappings != null && updatedcartProductMappings.Any())
                     {
                         dBContext.CartProductMapping.UpdateRange(updatedcartProductMappings);
                         dBContext.SaveChanges();
@@ -261,6 +287,7 @@ namespace CartService.BusinessLogic
                     }
 
                 }
+                return inputData.CartId;
             }
         }
 

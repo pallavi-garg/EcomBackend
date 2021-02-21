@@ -22,7 +22,9 @@ namespace CartService.Shared.Model
         
         public ImageDetail[] Media { get; set; }
 
-        public Dictionary<string, string> Features { get; set; }
+        public Features Features { get; set; }
+
+        public int CartQuantity { get; set; }
     }
 
 }

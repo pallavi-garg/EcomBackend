@@ -10,7 +10,7 @@ namespace CartService.DataAccess.SQL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured) { optionsBuilder.UseSqlServer("server=localhost;database=CartServiceDB;Integrated Security=SSPI;MultipleActiveResultSets=True;"); }
+            if (!optionsBuilder.IsConfigured) { optionsBuilder.UseSqlServer("server=PRANS3149418-02;database=CartDB;Integrated Security=SSPI;MultipleActiveResultSets=True;"); }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

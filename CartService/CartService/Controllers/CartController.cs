@@ -43,16 +43,27 @@ namespace CartService.Controllers
         }
 
         /// <summary>
+        /// Id is id of custmer
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
+        [HttpGet("cartItemCount/{customerId}")]
+        public ActionResult<int> GetCartItemsCount(string customerId)
+        {
+            return _cartProvider.GetCartItemsCount(customerId);
+        }
+
+        /// <summary>
         /// Add/Update carts
         /// </summary>
         /// <param name="inputData"></param>
         [HttpPost]
-        public ActionResult<CartDetails> UpsertCartDetail([FromBody] CartDetails inputData)
+        public ActionResult<string> UpsertCartDetail([FromBody] CartDetails inputData)
         {
             if(string.IsNullOrWhiteSpace(inputData.CartId))
             {
                 // create new cart
-                _cartProvider.AddCartDetail(inputData);
+               return _cartProvider.AddCartDetail(inputData);
             }
             else
             {
@@ -63,7 +74,7 @@ namespace CartService.Controllers
                     {
                         inputData.CreatedDate = existingCart.CreatedDate;
                         //Update Cart
-                        _cartProvider.UpdateCartDetail(inputData);
+                        return _cartProvider.UpdateCartDetail(inputData);
                     }
                     else
                     {
@@ -112,5 +123,6 @@ namespace CartService.Controllers
         {
             return _cartProvider.GetAllCartItems();
         }
+        
     }
 }

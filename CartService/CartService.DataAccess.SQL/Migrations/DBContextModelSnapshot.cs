@@ -21,45 +21,39 @@ namespace CartService.DataAccess.SQL.Migrations
 
             modelBuilder.Entity("CartService.DataAccess.SQL.Cart", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CartId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("Cart");
-
                 });
 
             modelBuilder.Entity("CartService.DataAccess.SQL.CartProductMapping", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("CartId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -67,31 +61,9 @@ namespace CartService.DataAccess.SQL.Migrations
                     b.Property<string>("SKU")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CartId", "ProductId");
 
                     b.ToTable("CartProductMapping");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("12f9d48c-d899-4db7-a229-cbe823695ca0"),
-                            CartId = "8FA73BC7-FE97-4C67-9AC3-2991958F6469",
-                            CreatedAt = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(30),
-                            ModifiedDate = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(42),
-                            ProductId = "XYZ_12345",
-                            Quantity = 2,
-                            SKU = "ADCSKKK_SSW#$%&**SS^&*()"
-                        },
-                        new
-                        {
-                            Id = new Guid("77cfb577-59a4-4a89-a9f0-bef5a6f9efb9"),
-                            CartId = "325C5EE8-BA74-47C5-9E4C-A8BD24A9B570",
-                            CreatedAt = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(1704),
-                            ModifiedDate = new DateTime(2021, 2, 18, 13, 31, 4, 246, DateTimeKind.Local).AddTicks(1708),
-                            ProductId = "ABCD_XXXX",
-                            Quantity = 2,
-                            SKU = "ADCSKKK_SSWqweeqweqweqwe"
-                        });
                 });
 #pragma warning restore 612, 618
         }
