@@ -20,11 +20,11 @@ namespace OrderService.BusinessLogic
                 var order = productOrders.FirstOrDefault(po => po.ProductId.Equals(orderDetail.ProductId) && po.SKU.Equals(orderDetail.SKU));
                 if (order != null)
                 {
-                    order.Quantity += 1;
+                    order.Quantity += orderDetail.Quantity;
                 }
                 else
                 {
-                    order = new ProductOrder() { ProductId = orderDetail.ProductId, SKU = orderDetail.SKU, Quantity = 1 };
+                    order = new ProductOrder() { ProductId = orderDetail.ProductId, SKU = orderDetail.SKU, Quantity = orderDetail.Quantity };
                     productOrders.Add(order);
                 }
             }

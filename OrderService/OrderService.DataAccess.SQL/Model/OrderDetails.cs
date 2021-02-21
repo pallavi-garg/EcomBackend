@@ -14,6 +14,6 @@ namespace OrderService.DataAccess.SQL
         public string CustomerId { get; set; }
 
 
-        // Order Status 0 - Payment Pending, 1 = Payment Done, 2 = Shipped,3 = Order completed, 4= Cancelled, 5= Returned
+        // Order Status 0 - Payment Pending, 1 = Payment Done, 2 = Shipped,3 = Order completed, 4= Cancelled/Inactive, 5= Returned
     }
 }

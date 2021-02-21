@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Extensions.Options;
+using OrderService.AzureBus;
 using OrderService.BusinessLogic.Interface;
 using OrderService.DataAccess.SQL;
 using OrderService.DataAccess.SQL.Interfaces;
@@ -29,7 +30,13 @@ namespace OrderService.BusinessLogic
 
         public void DeleteOrderById(string orderId)
         {
-            _repo.Delete(orderId);
+            var order = _repo.GetById(orderId);
+            if (order != null)
+            {
+                order.OrderStatus = 4;
+                order.ModifiedDate = DateTime.Now;
+                _repo.Update(order);
+            }
         }
 
         public IEnumerable<Order> GetAllOrders()
@@ -63,21 +70,47 @@ namespace OrderService.BusinessLogic
                 ModifiedDate = DateTime.Now
             };
             _repo.Update(order);
-            inputData.Products.ForEach((item) =>
+
+            var alreadyOrderedProducts = _productDetailRepo.GetProductByOrderId(order.Id.ToString()).ToList();
+            var matchingProducts = inputData.Products.Where(p => alreadyOrderedProducts.Any(addedProduct => addedProduct.ProductId.Equals(p.ProductId)
+                                                                                                          && addedProduct.SKU.Equals(p.Sku))).ToList();
+            //add new products in database
+            var newProducts = inputData.Products.Except(matchingProducts).ToList();
+            List<ProductOrderDetail> newProductOrderDetails = new List<ProductOrderDetail>();
+            FillProductDetails(newProducts, order.Id, ref newProductOrderDetails);
+            _productDetailRepo.BulkInsert(newProductOrderDetails);
+
+            //Update quantities for existing products
+            List<ProductOrderDetail> matchingProductOrderDetails = new List<ProductOrderDetail>();          
+            foreach (var product in matchingProducts)
             {
-                var mapping = new ProductOrderDetail
+                var matchedProduct = alreadyOrderedProducts.FirstOrDefault(addedProduct => addedProduct.ProductId.Equals(product.ProductId) && addedProduct.SKU.Equals(product.Sku));
+
+                if (matchedProduct != null)
                 {
-                    OrderId = inputData.OrderId,
-                    CreatedAt = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid(),
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    SKU = item.Sku,
-                    Tax = item.Tax
-                };
-                _productDetailRepo.Update(mapping);
-            });
+                    _productDetailRepo.Detach(matchedProduct);
+                    int delta = product.Quantity - matchedProduct.Quantity;
+                    var newproduct = new ProductOrderDetail()
+                    {
+                        Id = matchedProduct.Id,
+                        OrderId = order.Id.ToString(),
+                        ProductId = product.ProductId,
+                        Quantity = product.Quantity,
+                        ProductPurchasePrice = product.Price,
+                        SKU = product.Sku,
+                        Tax = product.Tax
+                    };
+                    _productDetailRepo.Update(newproduct);
+                    //new instance of product is added
+                    if (delta > 0)
+                    {
+                        newproduct.Quantity = delta;
+                        matchingProductOrderDetails.Add(newproduct);
+                    }
+                }
+            }
+
+            MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(newProductOrderDetails.Union(matchingProductOrderDetails).ToList())).Wait();
         }
 
         public Order AddNewOrder(Order inputData)
@@ -91,7 +124,7 @@ namespace OrderService.BusinessLogic
 
             inputData.InvoiceNumber = orderDetails.InvoiceNumber;
 
-            //MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(productOrderDetails)).Wait();
+            MessageSender.SendOrderPlacedAsync(ProductOrderMessageCreator.CreateUpdateProductinventoryMessage(productOrderDetails)).Wait();
 
             return inputData;
         }
@@ -181,8 +214,13 @@ namespace OrderService.BusinessLogic
             orderDetails.CustomerId = inputData.CustomerId;
             orderDetails.InvoiceNumber = Guid.NewGuid().ToString();
             orderDetails.OrderStatus = 0;
+            FillProductDetails(inputData.Products, orderId, ref productOrderDetails);
 
-            foreach(var product in inputData.Products)
+        }
+
+        private static void FillProductDetails(List<ShortProductDetails> inputDataProducts, Guid orderId, ref List<ProductOrderDetail> productOrderDetails)
+        {
+            foreach (var product in inputDataProducts)
             {
                 productOrderDetails.Add(new ProductOrderDetail()
                 {
@@ -191,11 +229,10 @@ namespace OrderService.BusinessLogic
                     ProductId = product.ProductId,
                     Quantity = product.Quantity,
                     ProductPurchasePrice = product.Price,
-                    SKU = product.Sku
+                    SKU = product.Sku,
+                    Tax = product.Tax
                 });
             }
-            
         }
-
     }
 }

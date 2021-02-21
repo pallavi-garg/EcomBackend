@@ -20,20 +20,27 @@ namespace ProductService.AzureBus
 
         public void StartReceivingOrdersMadeRequest(int threads)
         {
-            // Create a new client
-            QueueClient = new QueueClient(Settings.ConnectionString, Settings.QueueName);
-
-            // Set the options for the message handler
-            var options = new MessageHandlerOptions(ExceptionReceivedHandler)
+            try
             {
-                AutoComplete = false,
-                MaxConcurrentCalls = threads,
-                MaxAutoRenewDuration = TimeSpan.FromMinutes(10)
-            };
+                // Create a new client
+                QueueClient = new QueueClient(Settings.ConnectionString, Settings.QueueName);
 
-            // Create a message pump using RegisterMessageHandler
-            QueueClient.RegisterMessageHandler(ProcessOrdersMadeMessageAsync, options);
+                // Set the options for the message handler
+                var options = new MessageHandlerOptions(ExceptionReceivedHandler)
+                {
+                    AutoComplete = false,
+                    MaxConcurrentCalls = threads,
+                    MaxAutoRenewDuration = TimeSpan.FromMinutes(10)
+                };
 
+                // Create a message pump using RegisterMessageHandler
+                QueueClient.RegisterMessageHandler(ProcessOrdersMadeMessageAsync, options);
+            }
+
+            catch
+            {
+                //Log exception
+            }
         }
 
         public async Task StopReceivingOrdersMadeRequest()

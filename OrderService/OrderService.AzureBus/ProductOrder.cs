@@ -6,6 +6,6 @@ namespace OrderService.AzureBus
     {
         public string ProductId { get; set; }
         public string SKU { get; set; }
-        public uint Quantity { get; set; }
+        public int Quantity { get; set; }
     }
 }

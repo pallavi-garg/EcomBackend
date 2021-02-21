@@ -88,41 +88,5 @@ namespace CartService.Controllers
             }
             return null;
         }
-
-
-        /// <summary>
-        /// return bool
-        /// id - product id
-        /// not mvp
-        /// </summary>
-        /// <param name="id"></param>
-        [HttpDelete("deleteproduct/{id}")]
-        public void DeleteItemFromCart(string id)
-        {
-            _cartProvider.DeleteItemFromCart(id);
-        }
-
-        ///// <summary>
-        ///// return bool
-        ///// id - product id
-        ///// </summary>
-        ///// <param name="id"></param>
-        //[HttpDelete("deleteproduct/{id}/{sku}")]
-        //public void DeleteItemFromCart(string id, string sku)
-        //{
-        //    //TODO pass sku
-        //    _cartProvider.DeleteItemFromCart(id);
-        //}
-
-        /// <summary>
-        /// Not MVP
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public IEnumerable<CartDetails> GetAllCarts()
-        {
-            return _cartProvider.GetAllCartItems();
-        }
-        
     }
 }

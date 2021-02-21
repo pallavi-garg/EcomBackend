@@ -79,5 +79,14 @@
             var orderDetails = entities.OfType<ProductOrderDetail>().Where(s => s.OrderId == orderId);
             return orderDetails.OfType<T>();
         }
+
+        public void Detach(T entity)
+        {
+            if (entity != null)
+            {
+                _context.Entry(entity).State = EntityState.Detached;
+                Save();
+            }
+        }
     }
 }

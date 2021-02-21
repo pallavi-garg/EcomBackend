@@ -68,7 +68,7 @@ namespace ProductService.WebApi
                         "Admin",
                         policy => policy.RequireClaim("extension_Role", "212342"));
                 });
-            //services.AddSingleton<IMessageReceiver, MessageReceiver>();
+            services.AddSingleton<IMessageReceiver, MessageReceiver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

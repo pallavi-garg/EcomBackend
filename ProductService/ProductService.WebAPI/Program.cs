@@ -11,8 +11,7 @@ namespace ProductService.WebApi
         {
             var host = CreateHostBuilder(args).Build();
             var service = host.Services.GetService(typeof(IMessageReceiver)) as IMessageReceiver;
-            //TODO: Uncomment when service bus settings are added
-            //service.StartReceivingOrdersMadeRequest(1);
+            service?.StartReceivingOrdersMadeRequest(1);
             host.Run();
         }
 
