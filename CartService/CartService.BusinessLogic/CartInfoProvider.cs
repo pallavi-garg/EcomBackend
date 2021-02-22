@@ -55,6 +55,12 @@ namespace CartService.BusinessLogic
 
                     dBContext.SaveChanges();
                 }
+                List<CartProductMapping> cartProductMappingList = dBContext.CartProductMapping.Where(x => x.CartId == cart.Id).ToList();
+                if (cartProductMappingList != null)
+                {
+                    dBContext.CartProductMapping.RemoveRange(cartProductMappingList);
+                    dBContext.SaveChanges();
+                }
             }
         }
 
@@ -172,12 +178,16 @@ namespace CartService.BusinessLogic
                 var cartData = dBContext.Cart.FirstOrDefault(x => x.Id == cartId);
                 dBContext.SaveChanges();
 
-                return new CartDetails
+                if(cartData != null)
                 {
-                    CartId = cartData.Id,
-                    CustomerId = cartData.CustomerId,
-                    CreatedDate = cartData.CreatedOn
-                };
+                    return new CartDetails
+                    {
+                        CartId = cartData.Id,
+                        CustomerId = cartData.CustomerId,
+                        CreatedDate = cartData.CreatedOn
+                    };
+                }
+                return null;
             }
         }
 

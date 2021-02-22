@@ -83,7 +83,7 @@ namespace CartService.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    return _cartProvider.AddCartDetail(inputData);
                 }
             }
             return null;
